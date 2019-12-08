@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ note.title }}</title>
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script
+            type="text/javascript"
+            async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML,/static/js/mathjaxmacros.js"></script>
+
+    <!-- Custom -->
+    <script src='{{ url_for("static", filename="anno.js") }}'></script>
+    <link rel='stylesheet' href='{{ url_for("static", filename="css/anno.css") }}'/>
+</head>
+<body>
+    <div id="gloss-edit-page" class="page-wrapper">
+        <div id="image-uploader" class="image-uploader">
+            <button class="add-image-btn">Add image</button>
+            <input type="file"
+                   class="image-upload-btn"
+                   style="display: none;"/>
+            <div id="uploaded-image-tag"></div>
+        </div>
+
+        <form action="/{{ note.url }}/edit" method="post">
+            <textarea id="edit-field" type="text" name="note_text" class="form-control">{{ note.text }}</textarea>
+            <div id="edit-preview" class="markdown-body"></div>
+            <button type="submit" class="btn btn-warning" id="edit-submit-btn">Edit text</button>
+        </form>
+        <form action="/{{ note.url }}/delete" method="post">
+            <input type="submit"
+                   value="Delete"
+                   onclick="return confirm('Are you sure you want to delete this item?');"/>
+        </form>
+        <form action="/{{ note.url }}/archive" method="post">
+            <input type="submit"
+                   value="Archive"
+                   onclick="return confirm('Are you sure you want to archive this item?');"/>
+        </form>
+
+        <form action="/{{ note.url }}/pdf" method="get">
+            <input type="submit" value="PDF"/>
+        </form>
+    </div>
+</body>
+</html>

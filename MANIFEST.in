@@ -1,0 +1,2 @@
+include anno/templates *
+recursive-include anno/static *

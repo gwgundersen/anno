@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title != 'Anno' %}
+        <title>Anno - {{ title }}</title>
+    {% else %}
+        <title>{{ title }}</title>
+    {% endif %}
+</head>
+<body>
+    {% if include_nav %}
+        <div class='nav'>
+            <a href='/'>Home</a>
+        </div>
+    {% endif %}
+    <h1>{{ title }}</h1>
+    <table>
+        {% for item in notes.values() %}
+            <tr>
+                <td class='date'>{{ item.date | date_to_string }}</td>
+                <td class='title'>
+                    <a href='{{ item.url }}'>{{ item.title }}</a>
+                </td>
+                {% if item.labels %}
+                    <td class='labels'>
+                        {% for label in item.labels %}
+                            <a href="/label/{{ label }}">{{ label }}</a>
+                        {% endfor %}
+                    </td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

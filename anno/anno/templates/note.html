@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ note.title }}</title>
+    <script
+        type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML,/static/js/mathjaxmacros.js"></script>
+    <link rel='stylesheet' href=''/>
+</head>
+<body>
+    <div class='nav'>
+        <a href='/'>Home</a>
+        <a href='{{ note.url }}/edit'>Edit</a>
+    </div>
+    <div id="anno-page">
+        <div class="title-wrapper">
+            <div class="title">
+                <h1>{{ note.title }}</h1>
+                <p>{{ note.subtitle }}</p>
+                <p>{{ note.author }}</p>
+                <p class="date">{{ note.date | date_to_string }}</p>
+            </div>
+        </div>
+        <div class="anno markdown-body">
+            {{ text | safe }}
+        </div>
+    </div>
+</body>
+</html>
