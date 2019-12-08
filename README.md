@@ -1,4 +1,4 @@
-Anno is a simple, lightweight note-taking program.
+Anno is a simple, lightweight, and local note-taking program. 
 
 
 # Motivation
