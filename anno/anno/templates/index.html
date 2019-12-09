@@ -15,12 +15,15 @@
         </div>
     {% endif %}
     <h1>{{ title }}</h1>
+    <div>
+        <a href='/new'>New</a>
+    </div>
     <table>
-        {% for item in notes.values() %}
+        {% for item in notes %}
             <tr>
                 <td class='date'>{{ item.date | date_to_string }}</td>
                 <td class='title'>
-                    <a href='{{ item.url }}'>{{ item.title }}</a>
+                    <a href='/{{ item.url }}'>{{ item.title }}</a>
                 </td>
                 {% if item.labels %}
                     <td class='labels'>

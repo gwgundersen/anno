@@ -21,7 +21,11 @@
     <link rel='stylesheet' href='{{ url_for("static", filename="css/anno.css") }}'/>
 </head>
 <body>
-    <div id="gloss-edit-page" class="page-wrapper">
+    {% include 'flashes.html' %}
+    <div class='nav'>
+        <a href='/'>Home</a>
+    </div>
+    <div id="note-edit-page" class="page-wrapper">
         <div id="image-uploader" class="image-uploader">
             <button class="add-image-btn">Add image</button>
             <input type="file"
@@ -44,10 +48,6 @@
             <input type="submit"
                    value="Archive"
                    onclick="return confirm('Are you sure you want to archive this item?');"/>
-        </form>
-
-        <form action="/{{ note.url }}/pdf" method="get">
-            <input type="submit" value="PDF"/>
         </form>
     </div>
 </body>

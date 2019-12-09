@@ -15,11 +15,11 @@ def render_markdown(value):
     return output
 
 
-def make_pdf(value, fname):
+def make_pdf(note):
     extra_args = ['-V', 'geometry:margin=1in', '--pdf-engine', 'pdflatex']
-    pypandoc.convert_text(value, to='pdf', format='md',
+    pypandoc.convert_text(note.text, to='pdf', format='md',
                           extra_args=extra_args,
-                          outputfile=fname)
+                          outputfile=note.pdf_fname)
 
 
 def parse_metadata(text):

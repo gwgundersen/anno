@@ -5,9 +5,11 @@ Configure and start local Anno notebook.
 from   anno.anno.render import (jinja2_filter_date_to_string,
                                 render_markdown,
                                 make_pdf)
-from   anno.anno.notes import build_notes
+from   anno.anno.notes import get_notes, get_note, Note, note_exists
+from   datetime import datetime
 from   flask import (Flask,
-                     send_from_directory,
+                     flash,
+                     make_response,
                      redirect,
                      request,
                      render_template,
@@ -18,6 +20,7 @@ import os
 # -----------------------------------------------------------------------------
 
 app = Flask(__name__)
+app.secret_key = 'This key is required for `flash()`.'
 
 app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
 app.jinja_env.globals.update(zip=zip)
@@ -27,42 +30,62 @@ app.jinja_env.globals.update(zip=zip)
 
 IMAGE_DIR = 'anno/static/images'
 IMAGE_BASE_URL = '/static/images'
-NOTES = build_notes()
 
 
 # -----------------------------------------------------------------------------
 
 @app.route('/', methods=['GET'])
 def index():
-    NOTES = build_notes()
-    return render_template('index.html', notes=NOTES, title='Anno',
+    notes = get_notes()
+    return render_template('index.html', notes=notes, title='Anno',
                            include_nav=False)
 
 
-@app.route('/<string:note_title>', methods=['GET'])
-def render_note(note_title):
-    note = NOTES.get(note_title)
+@app.route('/<string:note_uid>', methods=['GET'])
+def render(note_uid):
+    note = get_note(note_uid)
     return render_template('note.html', note=note,
                            text=render_markdown(note.text))
 
 
-@app.route('/<string:note_url>/edit', methods=['GET', 'POST'])
-def edit(note_url):
-    note = NOTES.get(note_url)
+@app.route('/new', methods=['GET', 'POST'])
+def new():
     if request.method == 'GET':
+        curr_date = datetime.now().strftime('%Y-%m-%d')
+        default_text = """---
+title: New note
+date: %s
+---""" % curr_date
+        return render_template('new.html',
+                               default_text=default_text)
+    else:
+        new_text = request.form.get('note_text')
+        note = Note(new_text)
+        if note_exists(note.uid):
+            flash('New note has same date and title as another note.')
+            return render_template('new.html', default_text=new_text)
+
+        note.create_file()
+        return redirect(url_for('render', note_uid=note.uid))
+
+
+@app.route('/<string:note_uid>/edit', methods=['GET', 'POST'])
+def edit(note_uid):
+    if request.method == 'GET':
+        note = get_note(note_uid)
         return render_template('edit.html', note=note,
                                rendered_text=render_markdown(note.text))
     else:
         new_text = request.form.get('note_text')
-        note = NOTES.pop(note_url, None)
-        if note:
-            note.save(new_text)
-            new_note_url = note.url
-            # FIXME: Support rolling back.
-            if new_note_url in NOTES:
-                raise ValueError('')
-            NOTES[new_note_url] = note
-        return redirect(url_for('render_note', note_title=note.url))
+        old_note = get_note(note_uid)
+        new_note = Note(new_text)
+        if new_note.uid != old_note.uid and note_exists(new_note.uid):
+            flash('Modified note has same date and title as another note.')
+            return redirect(url_for('edit', note_uid=old_note.uid))
+        else:
+            old_note.remove_file()
+            new_note.create_file()
+            return redirect(url_for('render', note_uid=new_note.uid))
 
 
 @app.route('/preview', methods=['POST'])
@@ -71,17 +94,17 @@ def preview():
     return render_markdown(text)
 
 
-@app.route('/<string:note_url>/delete', methods=['POST'])
-def delete(note_url):
-    note = NOTES.pop(note_url,  None)
+@app.route('/<string:note_uid>/delete', methods=['POST'])
+def delete(note_uid):
+    note = get_note(note_uid)
     if note:
         note.trash()
     return redirect(url_for('index'))
 
 
-@app.route('/<string:note_url>/archive', methods=['POST'])
-def archive(note_url):
-    note = NOTES.pop(note_url,  None)
+@app.route('/<string:note_uid>/archive', methods=['POST'])
+def archive(note_uid):
+    note = get_note(note_uid)
     if note:
         note.archive()
     return redirect(url_for('index'))
@@ -89,8 +112,8 @@ def archive(note_url):
 
 @app.route('/label/<string:label>', methods=['GET'])
 def label(label):
-    filtered_notes = {u: n for u, n in NOTES.items() if label in n.labels}
-    return render_template('index.html', notes=filtered_notes, title=label,
+    notes = get_notes(label=label)
+    return render_template('index.html', notes=notes, title=label,
                            include_nav=True)
 
 
@@ -109,8 +132,13 @@ def upload_image():
            f'</div>'
 
 
-@app.route('/<string:note_url>/pdf', methods=['GET'])
-def pdf(note_url):
-    note = NOTES.get(note_url,  None)
-    make_pdf(note.text, note.pdf_fpath)
-    return send_from_directory('', note.pdf_fname)
+@app.route('/<string:note_uid>/pdf', methods=['GET'])
+def pdf(note_uid):
+    note = get_note(note_uid)
+    make_pdf(note)
+    with open(note.pdf_fname, mode='rb') as f:
+        response = make_response(f.read())
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % 'yourfilename'
+    os.remove(note.pdf_fname)
+    return response
