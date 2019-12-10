@@ -1,4 +1,4 @@
-Anno is a thin client for Markdown files for easy, local editing and organization.
+Anno is a thin user interface on Markdown files for easy, local editing and organization.
 
 
 # Why use Anno?
