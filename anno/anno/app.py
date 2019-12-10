@@ -10,6 +10,7 @@ from   datetime import datetime
 from   flask import (Flask,
                      flash,
                      make_response,
+                     send_file,
                      redirect,
                      request,
                      render_template,
@@ -24,12 +25,6 @@ app.secret_key = 'This key is required for `flash()`.'
 
 app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
 app.jinja_env.globals.update(zip=zip)
-
-
-# -----------------------------------------------------------------------------
-
-IMAGE_DIR = 'anno/static/images'
-IMAGE_BASE_URL = '/static/images'
 
 
 # -----------------------------------------------------------------------------
@@ -117,19 +112,23 @@ def label(label):
                            include_nav=True)
 
 
-@app.route('/image', methods=['POST'])
-def upload_image():
-    f = request.files.get('file')
-    fpath = os.path.join(IMAGE_DIR, f.filename)
-    if os.path.exists(fpath):
-        return 'Filename already exists. Please rename the image.'
-    f.save(fpath)
-    url = url_for('static', filename=f'images/{f.filename}')
-    return f'<div class="image">' \
-           f'    <img src="{url}" ' \
-           f'        style="width: 100%%; display: block; margin: 0 auto;"/>' \
-           f'    <p class="caption"></p>' \
-           f'</div>'
+@app.route('/image', methods=['POST'], defaults={'img_name': None})
+@app.route('/image/<string:img_name>', methods=['GET'])
+def upload_image(img_name):
+    IMAGE_DIR = os.path.join(os.getcwd(), '_images')
+    if request.method == 'GET':
+        fpath = f'{IMAGE_DIR}/{img_name}'
+        return send_file(fpath, mimetype='image/gif')
+    else:
+        f = request.files.get('file')
+        if not os.path.exists(IMAGE_DIR):
+            os.makedirs(IMAGE_DIR)
+        fpath = os.path.join(IMAGE_DIR, f.filename)
+        if os.path.exists(fpath):
+            return 'Filename already exists. Please rename the image.'
+        f.save(fpath)
+        url = url_for('upload_image', img_name=f.filename)
+        return f'![caption]({url}){{ width=50% }}'
 
 
 @app.route('/<string:note_uid>/pdf', methods=['GET'])

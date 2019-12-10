@@ -75,6 +75,8 @@ def get_identifiers(title, date):
     return path, fname, uid
 
 
+# FIXME: What's the best way to handle this?
+# https://stackoverflow.com/a/9517287/1830334
 def normalize_date(date):
     return date
 
@@ -120,9 +122,9 @@ class Note:
         return str(Path(self.fname).with_suffix('.pdf'))
 
     @classmethod
-    def is_note(cls, f):
-        path = join(NOTES_DIR, f)
-        return isfile(path) and f.endswith(FILE_EXT)
+    def is_note(cls, fname):
+        path = join(NOTES_DIR, fname)
+        return isfile(path) and fname.endswith(FILE_EXT)
 
     @classmethod
     def from_fname(cls, fname):
@@ -157,4 +159,3 @@ class Note:
     def _move_to_dir(self, directory):
         fname = os.path.basename(self.path)
         os.rename(self.path, os.path.join(directory, fname))
-
