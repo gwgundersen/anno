@@ -1,27 +1,31 @@
-Anno is a thin client over Markdown files for easy, local editing and organization.
+Anno is a thin client for Markdown files for easy, local editing and organization.
 
 
-# Motivation
+# Why use Anno?
 
 There are many note-taking apps. Why use Anno?
 
-- **Own your data.** Anno works on Markdown files that live on your machine. That's it. Rather than have your notes siloed by a company in possibly proprietary text formats, your data lives in human-readable text files wherever you like.
+- **Own your data.** Anno works on Markdown files that live on your machine. That's it. Rather than have your notes siloed by a company in a possibly proprietary text format, your data lives in human-readable text on your computer.
 
-- **Work locally, backup as you like.** Anno is entirely local. It's just a thin client on files in a given directory. Want awesome cloud storage backup? Push to a git server, encrypt the directory and email it to yourself, whatever you like.
+- **Work locally.** Want to work on a plane or a train? Want a fast user interface that isn't constantly pinging a remote server for who knows what? Anno is entirely local. It simply makes interacting with your data easier.
 
-## Anno is opinionated
+- **Control history and backups.** Revision control and redundancy for text files is a solved problem, and Anno doesn't introduce more overhead. Do you want cloud storage? Zip the directory and drop it on another machine. Do you want provenance? Use Git to track your changes. This is your data, not Anno's.
+
+# What Anno supports
 
 Anno supports the most time-consuming text-editing operations such as:
 
-- Previewing Markdown and MathJax updates as you write.
-- Syncing Markdown header information (title and date) into a consistently formatted filename.
-- Organizing your notes based on labels (specified in the Markdown header).
+- Previewing changes as you write.
+- Syncing Markdown header information (title and date) into consistently formatted filenames.
+- Organizing notes based on labels specified in the Markdown header.
 - Converting notes into PDFs for easy printing and sharing.
-- "Uploading" images (copying them into a local directory).
+- Adding images to notes.
+
+# Limitations
 
 Anno is designed for technical people. This means there is no support for things you might occasionally do that you can do from the command line or your OS's file manager such as:
 
-- No search. Use `grep`, `ack`, or your favorite text search tool.
-- No interface for archived or trashed files. The data lives in a directory on your machine. Use your favorite shell or your OS's file manager.
+- There is no search. Use `grep`, `ack`, or your favorite text search tool.
+- There is no interface for archived or trashed files. "Archivig" or "trashing" a note means moving it into a separate directory on your machine. Want to undo this operation or look through old notes? Use your OS's file manager.
 
 # Installation
