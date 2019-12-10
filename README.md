@@ -7,7 +7,7 @@ Anno is a simple, lightweight, and local note-taking program.
 - I want to human-readable text files (Markdown + MathJax), not a proprietary file format.
 - I want to work locally and backup as I choose (e.g. a remote Git server).
 
-### Limitations
+## Limitations
 
 Writing good user interfaces is hard and time-consuming, and I want to take notes, not maintain software. My goal is to build a UI to support 80% of my text-editing operations. What's time consuming? Things like...
 
