@@ -9,15 +9,18 @@ Anno is a simple, lightweight, and local note-taking program.
 
 ## Limitations
 
-Writing good user interfaces is hard and time-consuming, and I want to take notes, not maintain software. My goal is to build a UI to support 80% of my text-editing operations. What's time consuming? Things like...
+Writing good user interfaces is hard and time-consuming, and I want to take notes, not maintain software. My goal is to build a UI to support the most time consuming text-editing operations such as...
 
-- ...when I update a document date, I want the filename date updated as well.
-- ...when I create an image, I don't want to remember the Markdown syntax for the caption, the width, and so forth.
+- ...previewing Markdown and MathJax updates as I write.
+- ...organizing my notes based on labels.
+- ...converting a note into a PDF for easy printing and sharing.
+- ...uploading images the correct Markdown format.
+- ...syncing the file date with the filename.
 
-That said, there is no support for things I just _occasionally_ do. For example:
+This also means that there is no support for things I just _occasionally_ do, such as...
 
-- No search. Use `grep`, etc.
-- No archive viewer. Just open the files with `sublime`, etc.
-- No way to move files out of the archive or trash. Use Finder, etc.
+- ...searching. Use `grep`, `ack`, or your favorite text search tool.
+- ...viewing the archive or trash. Use your OS's file manager.
+- ...moving files out of the archive. Use your OS's file manager.
 
 # Installation
