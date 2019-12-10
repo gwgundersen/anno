@@ -1,3 +1,53 @@
-#anno-page {
-    width: 100px;
+a:link,
+a:visited,
+a:active {
+    color: blue;
+}
+a:hover {
+    color: darkblue;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, Helvetica, arial, sans-serif;
+    color: rgba(0, 0, 0, 0.8);
+    line-height: 1.5em;
+    font-size: 15px;
+}
+.content {
+    margin: 0 auto;
+    width: 700px;
+}
+.nav-wrapper,
+.title-wrapper {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+.nav {
+    margin: 10px auto;
+}
+.title-wrapper {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.title p {
+    margin: 0;
+}
+table tr td {
+    padding-right: 30px;
+}
+a.label {
+    background-color: blue;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 2px 4px;
+}
+a.label:hover {
+    background-color: darkblue;
+}
+#note-page h1 {
+    margin-top: 40px;
+}
+#index-page .title-wrapper h1 {
+    margin-bottom: 10px;
 }

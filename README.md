@@ -1,26 +1,27 @@
-Anno is a simple, lightweight, and local note-taking program. 
+Anno is a thin client over Markdown files for easy, local editing and organization.
 
 
 # Motivation
 
-- I want to own my data, not have it siloed by a company.
-- I want to human-readable text files (Markdown + MathJax), not a proprietary file format.
-- I want to work locally and backup as I choose (e.g. a remote Git server).
+There are many note-taking apps. Why use Anno?
 
-## Limitations
+- **Own your data.** Anno works on Markdown files that live on your machine. That's it. Rather than have your notes siloed by a company in possibly proprietary text formats, your data lives in human-readable text files wherever you like.
 
-Writing good user interfaces is hard and time-consuming, and I want to take notes, not maintain software. My goal is to build a UI to support the most time consuming text-editing operations such as...
+- **Work locally, backup as you like.** Anno is entirely local. It's just a thin client on files in a given directory. Want awesome cloud storage backup? Push to a git server, encrypt the directory and email it to yourself, whatever you like.
 
-- ...previewing Markdown and MathJax updates as I write.
-- ...organizing my notes based on labels.
-- ...converting a note into a PDF for easy printing and sharing.
-- ...uploading images the correct Markdown format.
-- ...syncing the file date with the filename.
+## Anno is opinionated
 
-This also means that there is no support for things I just _occasionally_ do, such as...
+Anno supports the most time-consuming text-editing operations such as:
 
-- ...searching. Use `grep`, `ack`, or your favorite text search tool.
-- ...viewing the archive or trash. Use your OS's file manager.
-- ...moving files out of the archive. Use your OS's file manager.
+- Previewing Markdown and MathJax updates as you write.
+- Syncing Markdown header information (title and date) into a consistently formatted filename.
+- Organizing your notes based on labels (specified in the Markdown header).
+- Converting notes into PDFs for easy printing and sharing.
+- "Uploading" images (copying them into a local directory).
+
+Anno is designed for technical people. This means there is no support for things you might occasionally do that you can do from the command line or your OS's file manager such as:
+
+- No search. Use `grep`, `ack`, or your favorite text search tool.
+- No interface for archived or trashed files. The data lives in a directory on your machine. Use your favorite shell or your OS's file manager.
 
 # Installation

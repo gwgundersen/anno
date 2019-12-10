@@ -22,10 +22,12 @@
 </head>
 <body>
     {% include 'flashes.html' %}
-    <div class='nav'>
-        <a href='/'>Home</a>
+    <div class='nav-wrapper'>
+        <div class='nav'>
+            <a href='/'>Home</a>
+        </div>
     </div>
-    <div id="note-edit-page" class="page-wrapper">
+    <div class='content'>
         <div id="image-uploader" class="image-uploader">
             <button class="add-image-btn">Add image</button>
             <input type="file"
@@ -33,12 +35,6 @@
                    style="display: none;"/>
             <div id="uploaded-image-tag"></div>
         </div>
-
-        <form action="/{{ note.url }}/edit" method="post">
-            <textarea id="edit-field" type="text" name="note_text" class="form-control">{{ note.text }}</textarea>
-            <div id="edit-preview" class="markdown-body"></div>
-            <button type="submit" class="btn btn-warning" id="edit-submit-btn">Edit text</button>
-        </form>
         <form action="/{{ note.url }}/delete" method="post">
             <input type="submit"
                    value="Delete"
@@ -48,6 +44,11 @@
             <input type="submit"
                    value="Archive"
                    onclick="return confirm('Are you sure you want to archive this item?');"/>
+        </form>
+        <form action="/{{ note.url }}/edit" method="post">
+            <div id="edit-preview" class="markdown-body"></div>
+            <button type="submit" class="btn btn-warning" id="edit-submit-btn">Edit text</button>
+            <textarea id="edit-field" type="text" name="note_text" class="form-control">{{ note.text }}</textarea>
         </form>
     </div>
 </body>

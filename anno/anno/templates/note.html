@@ -1,36 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
+    <meta charset='UTF-8'>
     <title>{{ note.title }}</title>
     <script
         type="text/javascript"
         async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML,/static/js/mathjaxmacros.js"></script>
     <link rel='stylesheet' href=''/>
+    <link rel='stylesheet' href='{{ url_for("static", filename="anno.css") }}'/>
 </head>
-<body>
-    <div class='nav'>
-        <a href='/'>Home</a>
-        <a href='{{ note.url }}/edit'>Edit</a>
-        <a href='{{ note.url }}/pdf'>PDF</a>
+<body id='note-page'>
+    <div class='nav-wrapper'>
+        <div class='nav content'>
+            <a href='/'>Home</a>
+            <a href='{{ note.url }}/edit'>Edit</a>
+            <a href='{{ note.url }}/pdf'>PDF</a>
+        </div>
     </div>
-    <div id="anno-page">
-        <div class="title-wrapper">
-            <div class="title">
-                <h1>{{ note.title }}</h1>
-                {% if note.subtitle %}
-                    <p>{{ note.subtitle }}</p>
-                {% endif %}
-                {% if note.author %}
-                    <p>{{ note.author }}</p>
-                {% endif %}
-                <p class="date">{{ note.date | date_to_string }}</p>
-            </div>
+    <div class='title-wrapper'>
+        <div class='title content'>
+            <h1>{{ note.title }}</h1>
+            {% if note.author %}
+                <p class='author'>{{ note.author }}</p>
+            {% endif %}
+            <p class='date'>{{ note.date | date_to_string }}</p>
         </div>
-        <div class="anno markdown-body">
-            {{ text | safe }}
-        </div>
+    </div>
+    <div class='anno content markdown-body'>
+        {{ text | safe }}
     </div>
 </body>
 </html>
