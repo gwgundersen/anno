@@ -51,7 +51,7 @@ $(function() {
         $('.image-uploader button').click(function(evt) {
             evt.preventDefault();
             var $uploader = $(evt.target).parent(),
-                $input = $uploader.find('input.image-upload-btn'),
+                $input = $uploader.find('input#image-upload-btn'),
                 isImagesPage = window.location.pathname == '/image/',
                 url;
 

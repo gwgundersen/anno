@@ -3,7 +3,6 @@ Functions for rendering Markdown and LaTeX as HTML.
 ============================================================================"""
 
 import datetime
-import os
 import pypandoc
 import re
 
@@ -34,17 +33,13 @@ def make_pdf(note):
 
 
 def parse_metadata(text):
-    query = re.search(r'---\n(.*)\n---', text, re.DOTALL)
-    # FIXME: Better markdown parsing.
-    if not query:
-        query = re.search(r'---\r\n(.*)\r\n---', text, re.DOTALL)
-    if query:
-        meta_raw = query.group(1)
-        parts = meta_raw.split('\n')
-        meta = {x[0].strip(): x[1].strip()
-                for x in [x.split(':') for x in parts]}
-        return meta
-    return {}
+    # Credit: https://github.com/eyeseast/python-frontmatter/
+    FM_BOUNDARY = re.compile(r'^-{3,}\s*$', re.MULTILINE)
+    _, fm, content = FM_BOUNDARY.split(text, 2)
+    parts = [p for p in fm.split('\n') if p]
+    meta = {x[0].strip(): x[1].strip()
+            for x in [x.split(':') for x in parts]}
+    return meta
 
 
 def jinja2_filter_date_to_string(date_str):

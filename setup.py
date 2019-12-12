@@ -19,7 +19,7 @@ setup_args = dict(
     author_email='greg@gregorygundersen.com',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['flask', 'pypandoc'],
+    install_requires=['flask', 'pypandoc', 'pyyaml'],
     entry_points={
         'console_scripts': [
             'anno = anno.annoapp:main',

@@ -31,9 +31,10 @@ app.jinja_env.globals.update(zip=zip)
 
 @app.route('/', methods=['GET'])
 def index():
+    title = os.getcwd().split('/')[-1]
     notes = get_notes()
-    return render_template('index.html', notes=notes, title='Anno',
-                           include_nav=False)
+    return render_template('index.html', notes=notes, title=title,
+                           include_nav=False, cwd=os.getcwd())
 
 
 @app.route('/<string:note_uid>', methods=['GET'])

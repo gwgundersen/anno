@@ -1,14 +1,17 @@
 # TODO
 
-- Ensure all CSS/JS is local.
-- Robust Markdown parsing.
-- Style.
-- Design landing page.
-    - No "Anno" at top? What's the point?
-    - Make it clear when no files are available?
+- Ensure MathJax is local
+    - This is _hard_!
+    - https://github.com/mathjax/MathJax-grunt-cleaner/blob/master/Gruntfile.js
 - Go through and simplify. Remove ruthlessly.
 - Put on HN.
 
+- ~~Style.~~
+- ~~Make it clear when no files are available?~~
+- ~~Design landing page.~~
+- ~~More robust Markdown parsing.~~
+- ~~Ensure all CSS is local.~~
+- ~~Start browser at launch.~~
 - ~~NO: JUST USE GREP. Simple search: https://github.com/gwgundersen/gloss/blob/master/gloss/searchengine/__init__.py.~~
 - ~~NO: JUST USE TEXT EDITOR. Visualize archive.~~
 - ~~Remove references to `gloss`.~~

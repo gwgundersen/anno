@@ -1,11 +1,15 @@
 a:link,
 a:visited,
 a:active {
-    color: blue;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
 }
 a:hover {
-    color: darkblue;
+  color: black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
+
 body {
     margin: 0;
     padding: 0;
@@ -14,40 +18,121 @@ body {
     line-height: 1.5em;
     font-size: 15px;
 }
+
+.mono {
+    font-family: monospace;
+}
+
+.clear {
+    clear: both;
+}
+
+a.btn,
+.btn {
+    padding: 4px 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none !important;
+    font-size: 13px;
+}
+
+.btn:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
 .content {
     margin: 0 auto;
     width: 700px;
 }
+
 .nav-wrapper,
 .title-wrapper {
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 }
+
 .nav {
     margin: 10px auto;
 }
+.nav a {
+    margin-right: 20px;
+}
+
 .title-wrapper {
     padding-bottom: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
+
 .title p {
     margin: 0;
 }
+
 table tr td {
     padding-right: 30px;
 }
-a.label {
-    background-color: blue;
+
+a.label:link,
+a.label:visited,
+a.label:active {
+    background-color: #435562;
     color: white;
-    text-decoration: none;
+    border-bottom: none;
     font-size: 13px;
-    padding: 2px 4px;
+    padding: 2px 5px;
 }
-a.label:hover {
-    background-color: darkblue;
+
+a.label:hover  {
+    opacity: 0.7;
+    border-bottom: none;
 }
+
 #note-page h1 {
     margin-top: 40px;
 }
+
 #index-page .title-wrapper h1 {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#edit-page .btn {
+    float: left;
+    margin: 20px 20px 20px 0;
+}
+
+#edit-page #edit-submit-btn {
+    background-color: #005f83;
+    color: white;
+}
+
+#edit-page #edit-submit-btn:hover {
+    opacity: 0.8;
+}
+
+#edit-page #edit-field,
+#edit-page #edit-preview {
+    width: 49%;
+}
+
+#edit-page #edit-field {
+    height: 502px;
+}
+
+#edit-page #edit-preview {
+    height: 600px;
+    float: right;
+    margin-top: 44px;
+}
+
+#edit-page .nav,
+#edit-page .content-wrapper {
+    margin: 10px 50px;
+}
+
+#edit-page .content-wrapper .content {
+    width: 100%;
+}
+
+#create-page #create-field {
+    height: 300px;
+    margin: 20px 0 30px 0;
+    width: 100%;
 }

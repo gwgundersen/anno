@@ -2,29 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New note</title>
-
+    <title>Create note</title>
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
-
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
-    <script
-            type="text/javascript"
-            async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML,/static/js/mathjaxmacros.js"></script>
-
     <!-- Custom -->
-    <script src='{{ url_for("static", filename="anno.js") }}'></script>
     <link rel='stylesheet' href='{{ url_for("static", filename="anno.css") }}'/>
 </head>
-<body>
+<body id='create-page'>
     {% include 'flashes.html' %}
-    <div>
+    <div class='title-wrapper'>
+        <div class='content'>
+            <div class='nav'>
+                <a href='/'>Home</a>
+            </div>
+            <h1>Create note</h1>
+        </div>
+    </div>
+    <div class='content'>
         <form action="/new" method="post">
-            <textarea id="edit-field" type="text" name="note_text" class="form-control">{{ default_text }}</textarea>
+            <textarea id="create-field" type="text" name="note_text" class="form-control">{{ default_text }}</textarea>
             <div id="edit-preview" class="markdown-body"></div>
             <button type="submit" class="btn btn-warning" id="edit-submit-btn">Create</button>
         </form>

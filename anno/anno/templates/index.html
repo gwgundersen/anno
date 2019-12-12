@@ -19,12 +19,13 @@
             {% endif %}
             <h1>{{ title }}</h1>
             <div class='controls'>
-                <a href='/new'>New</a>
+                <a href='/new' class='btn'>Create note</a>
             </div>
         </div>
     </div>
     <div class='content'>
-        <table>
+        {% if notes %}
+            <table>
             {% for item in notes %}
                 <tr>
                     <td class='date'>{{ item.date | date_to_string }}</td>
@@ -42,7 +43,10 @@
                     {% endif %}
                 </tr>
             {% endfor %}
-        </table>
+            </table>
+        {% else %}
+            <p>No notes <span class='mono'>{{ cwd }}</span>.</p>
+        {% endif %}
     </div>
 </body>
 </html>

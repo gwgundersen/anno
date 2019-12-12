@@ -18,38 +18,46 @@
 
     <!-- Custom -->
     <script src='{{ url_for("static", filename="anno.js") }}'></script>
-    <link rel='stylesheet' href='{{ url_for("static", filename="css/anno.css") }}'/>
+    <link rel='stylesheet' href='{{ url_for("static", filename="anno.css") }}'/>
 </head>
-<body>
+<body id='edit-page'>
     {% include 'flashes.html' %}
     <div class='nav-wrapper'>
-        <div class='nav'>
+        <div class='nav content'>
             <a href='/'>Home</a>
         </div>
     </div>
-    <div class='content'>
-        <div id="image-uploader" class="image-uploader">
-            <button class="add-image-btn">Add image</button>
-            <input type="file"
-                   class="image-upload-btn"
-                   style="display: none;"/>
-            <div id="uploaded-image-tag"></div>
+    <div class='content-wrapper'>
+        <div class='content'>
+            <div id='image-uploader' class='image-uploader'>
+                <button class='btn'>Add image</button>
+                <input type='file'
+                       id='image-upload-btn'
+                       class='btn'
+                       style='display: none;'/>
+                <div id='uploaded-image-tag'></div>
+            </div>
+            <form action='/{{ note.url }}/delete' method='post'>
+                <input type='submit'
+                       value='Delete'
+                       class='btn'
+                       onclick='return confirm("Are you sure you want to delete this item?");'/>
+            </form>
+            <form action='/{{ note.url }}/archive' method='post'>
+                <input type='submit'
+                       value='Archive'
+                       class='btn'
+                       onclick='return confirm("Are you sure you want to archive this item?");'/>
+            </form>
+            <form action='/{{ note.url }}/edit' method='post'>
+                <div id='edit-preview' class='markdown-body'></div>
+                <button type='submit'
+                        class='btn'
+                        id='edit-submit-btn'>Edit text</button>
+                <textarea id='edit-field' type='text' name='note_text' class='form-control'>{{ note.text }}</textarea>
+                <div class='clear'></div>
+            </form>
         </div>
-        <form action="/{{ note.url }}/delete" method="post">
-            <input type="submit"
-                   value="Delete"
-                   onclick="return confirm('Are you sure you want to delete this item?');"/>
-        </form>
-        <form action="/{{ note.url }}/archive" method="post">
-            <input type="submit"
-                   value="Archive"
-                   onclick="return confirm('Are you sure you want to archive this item?');"/>
-        </form>
-        <form action="/{{ note.url }}/edit" method="post">
-            <div id="edit-preview" class="markdown-body"></div>
-            <button type="submit" class="btn btn-warning" id="edit-submit-btn">Edit text</button>
-            <textarea id="edit-field" type="text" name="note_text" class="form-control">{{ note.text }}</textarea>
-        </form>
     </div>
 </body>
 </html>
