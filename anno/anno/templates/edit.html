@@ -29,13 +29,13 @@
     </div>
     <div class='content-wrapper'>
         <div class='content'>
+            <div id='uploaded-image-tag' class='hidden mono'></div>
             <div id='image-uploader' class='image-uploader'>
                 <button class='btn'>Add image</button>
                 <input type='file'
                        id='image-upload-btn'
                        class='btn'
                        style='display: none;'/>
-                <div id='uploaded-image-tag'></div>
             </div>
             <form action='/{{ note.url }}/delete' method='post'>
                 <input type='submit'

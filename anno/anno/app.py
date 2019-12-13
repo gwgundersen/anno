@@ -22,9 +22,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'This key is required for `flash()`.'
-
 app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
-app.jinja_env.globals.update(zip=zip)
 
 
 # -----------------------------------------------------------------------------
@@ -110,7 +108,7 @@ def archive(note_uid):
 def label(label):
     notes = get_notes(label=label)
     return render_template('index.html', notes=notes, title=label,
-                           include_nav=True)
+                           is_label_page=True)
 
 
 @app.route('/image', methods=['POST'], defaults={'img_name': None})
@@ -142,3 +140,8 @@ def pdf(note_uid):
         response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % 'yourfilename'
     os.remove(note.pdf_fname)
     return response
+
+
+@app.route('/search', methods=['GET'])
+def search():
+    return 'FIXME'

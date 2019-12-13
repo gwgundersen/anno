@@ -1,13 +1,14 @@
 a:link,
 a:visited,
 a:active {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  color: rgba(0, 0, 0, 0.8);
-  text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.8);
+    text-decoration: none;
 }
+
 a:hover {
-  color: black;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    color: black;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 body {
@@ -25,6 +26,10 @@ body {
 
 .clear {
     clear: both;
+}
+
+.hidden {
+    display: none;
 }
 
 a.btn,
@@ -45,6 +50,10 @@ a.btn,
     width: 700px;
 }
 
+.controls a {
+    margin-right: 10px;
+}
+
 .nav-wrapper,
 .title-wrapper {
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
@@ -53,6 +62,7 @@ a.btn,
 .nav {
     margin: 10px auto;
 }
+
 .nav a {
     margin-right: 20px;
 }
@@ -66,21 +76,33 @@ a.btn,
     margin: 0;
 }
 
-table tr td {
+table {
+    border-collapse: collapse;
+}
+
+#index-page table tr td {
     padding-right: 30px;
+}
+
+#note-page table tr td {
+    padding-right: 10px;
+}
+
+#note-page table {
+    margin-top: 15px;
 }
 
 a.label:link,
 a.label:visited,
 a.label:active {
-    background-color: #435562;
+    background-color: #005f83;
     color: white;
     border-bottom: none;
     font-size: 13px;
     padding: 2px 5px;
 }
 
-a.label:hover  {
+a.label:hover {
     opacity: 0.7;
     border-bottom: none;
 }
@@ -135,4 +157,23 @@ a.label:hover  {
     height: 300px;
     margin: 20px 0 30px 0;
     width: 100%;
+}
+
+#edit-page #uploaded-image-tag {
+    background-color: #B95E04;
+    color: white;
+    padding: 2px 10px;
+    margin-top: 20px;
+}
+
+.flashes {
+    padding: 10px;
+    list-style: none;
+    background-color: #B95E04;
+    color: white;
+}
+
+.flashes p {
+    margin: 0 auto;
+    width: 706px;
 }

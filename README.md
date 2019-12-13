@@ -6,7 +6,7 @@ There are many note-taking apps. Why use Anno?
 
 - **Own your data.** Anno works with [Markdown](https://daringfireball.net/projects/markdown/) files that live on your machine. That's it. Rather than have your notes siloed by a company in a possibly proprietary text format, your data lives in human-readable text on your computer.
 
-- **Easily write technical notes.** Anno was designed for technical note-taking and quickly renders Markdown + [MathJax](https://www.mathjax.org/) as you type.
+- **Easily write math.** Anno was designed for technical note-taking and quickly renders Markdown + [MathJax](https://www.mathjax.org/) as you type.
 
 - **Organize as you like.** Anno renders `.anno.md` files in the current working directory, and all files with `labels` in the [YAML](https://yaml.org/)-style front matter can be viewed in their respective collections. In other words, organize your data as you like using your filesystem; when you need Anno for editing, launch Anno in that directory.
 

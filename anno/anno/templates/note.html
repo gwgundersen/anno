@@ -13,9 +13,9 @@
 <body id='note-page'>
     <div class='nav-wrapper'>
         <div class='nav content'>
-            <a href='/'>Home</a>
-            <a href='{{ note.url }}/edit'>Edit</a>
-            <a href='{{ note.url }}/pdf'>PDF</a>
+            <a class='btn' href='/'>Home</a>
+            <a class='btn' href='{{ note.url }}/edit'>Edit</a>
+            <a class='btn' href='{{ note.url }}/pdf'>PDF</a>
         </div>
     </div>
     <div class='title-wrapper'>
@@ -25,6 +25,16 @@
                 <p class='author'>{{ note.author }}</p>
             {% endif %}
             <p class='date'>{{ note.date | date_to_string }}</p>
+            {% if note.meta %}
+                <table>
+                {% for k, v in note.meta.items() %}
+                    <tr>
+                        <td>{{ k }}</td>
+                        <td>{{ v }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+            {% endif %}
         </div>
     </div>
     <div class='anno content markdown-body'>

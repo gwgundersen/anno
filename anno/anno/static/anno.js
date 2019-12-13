@@ -51,9 +51,7 @@ $(function() {
         $('.image-uploader button').click(function(evt) {
             evt.preventDefault();
             var $uploader = $(evt.target).parent(),
-                $input = $uploader.find('input#image-upload-btn'),
-                isImagesPage = window.location.pathname == '/image/',
-                url;
+                $input = $uploader.find('input#image-upload-btn');
 
             $(':file').unbind('change');
             $('#uploaded-image-tag').empty();
@@ -72,7 +70,6 @@ $(function() {
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                        console.log('Success:');
                         add_uploaded_image_tag(data);
                     }
                 }, 'json');

@@ -32,7 +32,7 @@ def make_pdf(note):
                           outputfile=note.pdf_fname)
 
 
-def parse_metadata(text):
+def parse_frontmatter(text):
     # Credit: https://github.com/eyeseast/python-frontmatter/
     FM_BOUNDARY = re.compile(r'^-{3,}\s*$', re.MULTILINE)
     _, fm, content = FM_BOUNDARY.split(text, 2)
@@ -44,4 +44,4 @@ def parse_metadata(text):
 
 def jinja2_filter_date_to_string(date_str):
     date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
-    return date.strftime('%d %B %Y')
+    return date.strftime('%d %b %Y')

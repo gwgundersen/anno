@@ -11,16 +11,21 @@
 </head>
 <body id='index-page'>
     <div class='title-wrapper'>
+        {% if is_label_page %}
+            <div class='nav-wrapper'>
+                <div class='nav content'>
+                    <a href='/' class='btn'>Home</a>
+                </div>
+            </div>
+        {% endif %}
         <div class='content'>
-            {% if include_nav %}
-                <div class='nav'>
-                    <a href='/'>Home</a>
+            <h1>{{ title }}</h1>
+            {% if not is_label_page %}
+                <div class='controls'>
+                    <a href='/new' class='btn'>Create note</a>
+                    <a href='/search' class='btn'>Search</a>
                 </div>
             {% endif %}
-            <h1>{{ title }}</h1>
-            <div class='controls'>
-                <a href='/new' class='btn'>Create note</a>
-            </div>
         </div>
     </div>
     <div class='content'>

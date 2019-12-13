@@ -2,11 +2,12 @@
 Configure and start local Anno web server.
 ============================================================================"""
 
+import datetime
 import os
 from   os import listdir
 from   os.path import isfile, join
 from   pathlib import Path
-from   anno.anno.render import parse_metadata
+from   anno.anno.render import parse_frontmatter
 
 
 FILE_EXT    = '.anno.md'
@@ -93,25 +94,31 @@ def labels_str_to_list(labels):
 class Note:
 
     def __init__(self, text):
-        meta = parse_metadata(text)
+        fm = parse_frontmatter(text)
 
-        self.title = meta.get('title')
-        self.date  = normalize_date(meta.get('date'))
+        self.title  = fm.get('title')
+        self.author = fm.get('author')
+        self.date   = normalize_date(fm.get('date'))
 
         if self.title is None:
             raise AttributeError('a title must be given.')
         if self.date is None:
             raise AttributeError('a date must be given.')
 
-        path, fname, uid = get_identifiers(self.title, self.date)
+        # We treat/render the title, date, and author differently from other
+        # metadata.
+        self.meta     = fm
+        del self.meta['title']
+        del self.meta['date']
+        self.meta.pop('author', None)  # Safe delete.
 
-        self.text     = text
-        self.path     = path
-        self.fname    = fname
-        self.uid      = uid
-        self.labels   = labels_str_to_list(meta.get('labels'))
-        self.subtitle = meta.get('subtitle')
-        self.author   = meta.get('author')
+        path, fname, uid = get_identifiers(self.title, self.date)
+        self.text   = text
+        self.path   = path
+        self.fname  = fname
+        self.uid    = uid
+        self.labels = labels_str_to_list(fm.get('labels'))
+
 
     @property
     def url(self):
