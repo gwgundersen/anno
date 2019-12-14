@@ -89,6 +89,29 @@ def labels_str_to_list(labels):
     return ''
 
 
+def search_notes(keyword):
+    # FIXME: Is there a faster way to do this?
+    notes = set()
+    keyword = keyword.lower()
+    for f in listdir(NOTES_DIR):
+        if Note.is_note(f):
+            note     = Note.from_fname(f)
+            labels   = [l.lower() for l in note.labels]
+            title    = note.title.lower()
+            text     = note.text.lower()
+            metavals = [v.lower() for k, v in note.meta.items()]
+            if (keyword in labels
+                    or keyword in title
+                    or keyword in text
+                    or keyword in metavals):
+                notes.add(note)
+
+    notes = list(notes)
+    # Sorts in place.
+    notes.sort(key=lambda x: x.date, reverse=True)
+    return notes
+
+
 # -----------------------------------------------------------------------------
 
 class Note:

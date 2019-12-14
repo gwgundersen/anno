@@ -11,7 +11,7 @@
 </head>
 <body id='index-page'>
     <div class='title-wrapper'>
-        {% if is_label_page %}
+        {% if show_home_btn %}
             <div class='nav-wrapper'>
                 <div class='nav content'>
                     <a href='/' class='btn'>Home</a>
@@ -20,10 +20,13 @@
         {% endif %}
         <div class='content'>
             <h1>{{ title }}</h1>
-            {% if not is_label_page %}
+            {% if not show_home_btn %}
                 <div class='controls'>
                     <a href='/new' class='btn'>Create note</a>
-                    <a href='/search' class='btn'>Search</a>
+                    <form action='/search' method='post' id='search_form'>
+                        <input type='text' name='search_text' id='search_text' placeholder='Search...'>
+                        <input type='submit' class='btn' value='Go'>
+                    </form>
                 </div>
             {% endif %}
         </div>
@@ -50,7 +53,7 @@
             {% endfor %}
             </table>
         {% else %}
-            <p>No notes <span class='mono'>{{ cwd }}</span>.</p>
+            {{ no_notes_msg }}
         {% endif %}
     </div>
 </body>

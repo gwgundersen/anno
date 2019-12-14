@@ -115,6 +115,16 @@ a.label:hover {
     margin-bottom: 20px;
 }
 
+#index-page #search_form {
+    display: inline;
+}
+
+#index-page #search_form #search_text {
+    height: 17px;
+    position: relative;
+    top: -1px;
+}
+
 #edit-page .btn {
     float: left;
     margin: 20px 20px 20px 0;

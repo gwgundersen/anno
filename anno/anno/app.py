@@ -5,7 +5,11 @@ Configure and start local Anno notebook.
 from   anno.anno.render import (jinja2_filter_date_to_string,
                                 render_markdown,
                                 make_pdf)
-from   anno.anno.notes import get_notes, get_note, Note, note_exists
+from   anno.anno.notes import (get_notes,
+                               get_note,
+                               Note,
+                               note_exists,
+                               search_notes)
 from   datetime import datetime
 from   flask import (Flask,
                      flash,
@@ -31,8 +35,9 @@ app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
 def index():
     title = os.getcwd().split('/')[-1]
     notes = get_notes()
+    no_notes_msg = f'No notes in "{os.getcwd()}".'
     return render_template('index.html', notes=notes, title=title,
-                           include_nav=False, cwd=os.getcwd())
+                           include_nav=False, no_notes_msg=no_notes_msg)
 
 
 @app.route('/<string:note_uid>', methods=['GET'])
@@ -107,8 +112,9 @@ def archive(note_uid):
 @app.route('/label/<string:label>', methods=['GET'])
 def label(label):
     notes = get_notes(label=label)
+    no_notes_msg = f'No notes for label "{label}".'
     return render_template('index.html', notes=notes, title=label,
-                           is_label_page=True)
+                           show_home_btn=True, no_notes_msg=no_notes_msg)
 
 
 @app.route('/image', methods=['POST'], defaults={'img_name': None})
@@ -142,6 +148,12 @@ def pdf(note_uid):
     return response
 
 
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods=['POST'])
 def search():
-    return 'FIXME'
+    keyword = request.form.get('search_text')
+    notes   = search_notes(keyword)
+    title   = f'search: "{keyword}"'
+    no_notes_msg = 'No search results.'
+    return render_template('index.html', notes=notes, title=title,
+                           show_home_btn=True, include_nav=False,
+                           no_notes_msg=no_notes_msg)
