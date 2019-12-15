@@ -24,7 +24,7 @@ import os
 
 # -----------------------------------------------------------------------------
 
-app = Flask(__name__)#, static_folder=None)
+app = Flask(__name__)
 app.secret_key = 'This key is required for `flash()`.'
 app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
 

@@ -17,16 +17,14 @@ def render_markdown(value):
 
 def make_pdf(note):
     extra_args = ['-V', 'geometry:margin=1in', '--pdf-engine', 'pdflatex']
-    # FIXME. This is hacky. I'm replacing "(/image/" with "(_images/" in
-    #
-    #     [my caption](/image/foo.png)
-    #
+
+    # FIXME. This is hacky. I'm replacing
+    #   [my caption](/image/foo.png)
     # with
-    #
-    #     [my caption](foo.png)
-    #
-    # because I can't figure out how to tell Pandoc where the image file lives.
+    #   [my caption](/_images/foo.png)
+    # because I can't figure out how to tell Pandoc where the image files live.
     text = re.sub(r'(\(/image/)', '(_images/', note.text)
+
     pypandoc.convert_text(text, to='pdf', format='md',
                           extra_args=extra_args,
                           outputfile=note.pdf_fname)
