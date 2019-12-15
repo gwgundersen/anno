@@ -116,7 +116,7 @@ def search_notes(keyword):
 
 class Note:
 
-    def __init__(self, text):
+    def __init__(self, text, orig_fname=None):
         fm = parse_frontmatter(text)
 
         self.title  = fm.get('title')
@@ -142,6 +142,16 @@ class Note:
         self.uid    = uid
         self.labels = labels_str_to_list(fm.get('labels'))
 
+        if orig_fname and orig_fname != fname:
+            self.remove_file(orig_fname)
+            self.create_file()
+
+    @classmethod
+    def from_fname(cls, fname):
+        path = join(NOTES_DIR, fname)
+        with open(path) as f:
+            text = f.read()
+        return cls(text, orig_fname=fname)
 
     @property
     def url(self):
@@ -157,13 +167,6 @@ class Note:
         return isfile(path) and fname.endswith(FILE_EXT)
 
     @classmethod
-    def from_fname(cls, fname):
-        path = join(NOTES_DIR, fname)
-        with open(path) as f:
-            text = f.read()
-        return cls(text)
-
-    @classmethod
     def get_uid_from_fname(cls, fname):
         return fname.replace(FILE_EXT, '')
 
@@ -173,8 +176,11 @@ class Note:
         with open(self.path, 'w') as f:
             f.write(self.text)
 
-    def remove_file(self):
-        os.remove(self.path)
+    def remove_file(self, path=None):
+        if path:
+            os.remove(path)
+        else:
+            os.remove(self.path)
 
     def trash(self):
         if not os.path.exists(TRASH_DIR):

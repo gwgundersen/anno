@@ -24,7 +24,7 @@ import os
 
 # -----------------------------------------------------------------------------
 
-app = Flask(__name__)
+app = Flask(__name__)#, static_folder=None)
 app.secret_key = 'This key is required for `flash()`.'
 app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
 
@@ -40,9 +40,17 @@ def index():
                            include_nav=False, no_notes_msg=no_notes_msg)
 
 
+# @app.route('/static/<string:filename>')
+# def static(filename):
+#     return os.getcwd()
+
+
 @app.route('/<string:note_uid>', methods=['GET'])
 def render(note_uid):
     note = get_note(note_uid)
+    if not note:
+        flash(f'Note {note_uid} not found.')
+        return redirect(url_for('index'))
     return render_template('note.html', note=note,
                            text=render_markdown(note.text))
 
@@ -119,7 +127,7 @@ def label(label):
 
 @app.route('/image', methods=['POST'], defaults={'img_name': None})
 @app.route('/image/<string:img_name>', methods=['GET'])
-def upload_image(img_name):
+def image(img_name):
     IMAGE_DIR = os.path.join(os.getcwd(), '_images')
     if request.method == 'GET':
         fpath = f'{IMAGE_DIR}/{img_name}'
@@ -132,7 +140,7 @@ def upload_image(img_name):
         if os.path.exists(fpath):
             return 'Filename already exists. Please rename the image.'
         f.save(fpath)
-        url = url_for('upload_image', img_name=f.filename)
+        url = url_for('image', img_name=f.filename)
         return f'![caption]({url}){{ width=50% }}'
 
 
@@ -143,7 +151,8 @@ def pdf(note_uid):
     with open(note.pdf_fname, mode='rb') as f:
         response = make_response(f.read())
         response.headers['Content-Type'] = 'application/pdf'
-        response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % 'yourfilename'
+        cd = f'inline; filename={note_uid}.pdf'
+        response.headers['Content-Disposition'] = cd
     os.remove(note.pdf_fname)
     return response
 

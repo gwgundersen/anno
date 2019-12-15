@@ -50,6 +50,10 @@ a.btn,
     width: 700px;
 }
 
+.content.markdown-body {
+    margin-bottom: 100px;
+}
+
 .controls a {
     margin-right: 10px;
 }
@@ -186,4 +190,17 @@ a.label:hover {
 .flashes p {
     margin: 0 auto;
     width: 706px;
+}
+
+figure {
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    margin: 25px 0;
+    padding: 20px 0;
+}
+
+figure figcaption {
+    font-size: 13px;
+    text-align: left;
 }

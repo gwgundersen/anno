@@ -1,8 +1,8 @@
 # Anno - simple, fast, local note-taking software
 
-### Why use Anno?
+## Why use Anno?
 
-There are many note-taking apps. How is Anno different? Anno is a local, web server-based user interface on top of [Markdown](https://daringfireball.net/projects/markdown/) files in a given directory. It makes writing in, organizing, and searching through those files easy. That's it. There are many benefits to this approach:
+There are many note-taking apps. How is Anno different? Anno is a local, web server-based user interface on top of [Markdown](https://daringfireball.net/projects/markdown/) files in a given directory. See a screenshot below. It makes writing in, organizing, and searching through those files easy. That's it. There are many benefits to this approach:
 
 - **Own your data.** Writing things down is an investment in your future. Rather than have your notes siloed by a company in a possibly proprietary text format, your data lives in plaintext files on your machine. If you use Anno for a while and then stop, no worries. Your data, Markdown files, is human-readable, easily portable to other tools, and convertable to other formats (see [Pandoc](https://pandoc.org/)).
 
@@ -13,9 +13,13 @@ There are many note-taking apps. How is Anno different? Anno is a local, web ser
 - **Stay local, work fast.** Do you want to work on a plane or a train? Do you want a fast, simple user interface that isn't pinging a remote server or slow to render? Anno is fast—it uses a small Flask server and one ~100 line JavaScript file—and can be used anywhere.
 
 
-### What Anno supports
+## What Anno supports
 
-Anno provides a user interface for the most common and/or time-consuming text-editing operations such as:
+Anno provides a user interface for the most common and/or time-consuming text-editing operations. 
+
+<img src='https://raw.githubusercontent.com/gwgundersen/anno/master/screenshots/editing.png?token=AAVQBIFJQMFJMLK4RFCCZ72576O7I'/>
+
+For example:
 
 - Previewing changes as you write.
 - Writing equations using MathJax.
@@ -24,5 +28,5 @@ Anno provides a user interface for the most common and/or time-consuming text-ed
 - Adding images to notes.
 - Syncing Markdown front matter (title and date) into consistently formatted filenames.
 - Converting notes into [LaTeX](https://www.latex-project.org/) PDFs for easy printing and sharing.
-
-### Installation
+    
+## Installation
