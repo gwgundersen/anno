@@ -1,10 +1,10 @@
-# Anno - simple, fast, local note-taking software
+# Anno - simple, local, portable note-taking software
 
 ## Why use Anno?
 
-There are many note-taking apps. How is Anno different? Anno is a local, web server-based user interface on top of [Markdown](https://daringfireball.net/projects/markdown/) files in a given directory. See a screenshot below. It makes writing, organizing, and searching through those files easy. That's it. There are many benefits to this approach:
+There are many note-taking apps. How is Anno different? Anno is a local, web server-based user interface on top of [Markdown](https://daringfireball.net/projects/markdown/) files in a given directory. It makes writing, organizing, and searching through those files easy. That's it. There are many benefits to this approach:
 
-- **Own your data.** Writing things down is an investment in your future. Rather than have your notes siloed by a company in a possibly proprietary text format, your data lives in plaintext files on your machine. If you use Anno for a while and then stop, no worries. Your data, Markdown files, is human-readable, easily portable to other tools, and convertable to other formats (see [Pandoc](https://pandoc.org/)).
+- **Own your data.** Writing things down is an investment in your future. Rather than have your notes siloed by a company in a possibly proprietary text format, your data lives in plaintext files on your machine. If you use Anno for a while and then stop, no worries. Your data, Markdown files, is human-readable, easily portable to other tools, and programmatically convertable to other formats (see [Pandoc](https://pandoc.org/)).
 
 - **Organize notes naturally.** Most note-taking apps create a new organizational system for your notes that is distinct from your filesystem. This forces you to store your notes separately from related files. Anno only works with `.anno.md` files in the current working directory, allowing you to organize your notes using your filesystem. Furthermore, all files with `labels` in the [YAML](https://yaml.org/)-style front matter can be viewed in their respective collections, making intra-directory organization easy without touching your underlying directory structure.
 
@@ -19,7 +19,7 @@ Anno provides a user interface for the most common and/or time-consuming text-ed
 
 <img src='https://raw.githubusercontent.com/gwgundersen/anno/master/screenshots/editing.png?token=AAVQBIFJQMFJMLK4RFCCZ72576O7I'/>
 
-Some basic functionality Anno support is:
+Anno supports:
 
 - Previewing changes as you write.
 - Writing equations using MathJax.
@@ -29,4 +29,19 @@ Some basic functionality Anno support is:
 - Syncing Markdown front matter (title and date) into consistently formatted filenames.
 - Converting notes into [LaTeX](https://www.latex-project.org/) PDFs for easy printing and sharing.
     
-## Installation
+## Installation and usage
+
+Anno is available as a [PyPI package](https://pypi.org/project/anno/). To install, run
+
+```bash
+pip install anno
+```
+
+To use, type `anno` in the desired directory, e.g.
+
+```bash
+cd ~/myproject
+anno
+```
+
+and Anno will start a web server on port 5000 and open the app with your default browser.
