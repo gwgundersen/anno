@@ -2,7 +2,7 @@
 
 ## Why use Anno?
 
-There are many note-taking apps. How is Anno different? Anno is a local, web server-based user interface on top of [Markdown](https://daringfireball.net/projects/markdown/) files in a given directory. It makes writing, organizing, and searching through those files easy. That's it. There are many benefits to this approach:
+There are many note-taking apps. How is Anno different? Anno is a local, browser-based user interface on top of [Markdown](https://daringfireball.net/projects/markdown/) files in a given directory. It makes writing, organizing, and searching through those files easy. That's it. There are many benefits to this approach:
 
 - **Own your data.** Writing things down is an investment in your future. Rather than have your notes siloed by a company in a possibly proprietary text format, your data lives in plaintext files on your machine. If you use Anno for a while and then stop, no worries. Your data, Markdown files, is human-readable, easily portable to other tools, and programmatically convertable to other formats (see [Pandoc](https://pandoc.org/)).
 
