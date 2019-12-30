@@ -13,7 +13,7 @@ function annoRenderMath() {
     }
 }
 
-document.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', function() {
 
     watch_edits();
     handle_images();
