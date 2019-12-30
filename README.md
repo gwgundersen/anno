@@ -22,7 +22,7 @@ Anno provides a user interface for the most common and/or time-consuming text-ed
 Anno supports:
 
 - Previewing changes as you write.
-- Writing equations using MathJax.
+- Writing equations using [Katex](https://katex.org/).
 - Searching through files.
 - Organizing notes in a directory with labels.
 - Adding images to notes.
@@ -44,4 +44,8 @@ cd ~/myproject
 anno
 ```
 
-and Anno will start a web server on port 5000 and open the app with your default browser.
+and Anno will start a web server on port 5000 and open the app with your default browser. The port can be changed with the `--port` flag, e.g.
+
+```bash
+anno --port=4000
+```
