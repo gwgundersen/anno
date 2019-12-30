@@ -13,7 +13,7 @@ function annoRenderMath() {
     }
 }
 
-$(function() {
+document.addEventListener('load', function() {
 
     watch_edits();
     handle_images();
@@ -53,12 +53,16 @@ $(function() {
             var context = this, args = arguments;
             var later = function() {
                 timeout = null;
-                if (!immediate) func.apply(context, args);
+                if (!immediate) {
+                    func.apply(context, args);
+                }
             };
             var callNow = immediate && !timeout;
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
+            if (callNow) {
+                func.apply(context, args);
+            }
         };
     }
 
@@ -93,7 +97,9 @@ $(function() {
     }
 
     function add_uploaded_image_tag(imgTag) {
-        $('#uploaded-image-tag').show().append(escape_html(imgTag));
+        var elem = document.getElementById('uploaded-image-tag');
+        elem.appendChild(escape_html(imgTag));
+        elem.style.display = 'block';
     }
 
     function escape_html(string) {
