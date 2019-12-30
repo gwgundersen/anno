@@ -84,6 +84,10 @@ table {
     border-collapse: collapse;
 }
 
+#index-page table {
+    margin-bottom: 100px;
+}
+
 #index-page table tr td.date {
     width: 90px;
 }
@@ -100,6 +104,11 @@ table {
     margin-top: 15px;
 }
 
+#note-page h1 {
+    margin-top: 40px;
+    line-height: 1em;
+}
+
 a.label:link,
 a.label:visited,
 a.label:active {
@@ -113,10 +122,6 @@ a.label:active {
 a.label:hover {
     opacity: 0.7;
     border-bottom: none;
-}
-
-#note-page h1 {
-    margin-top: 40px;
 }
 
 #index-page .title-wrapper h1 {

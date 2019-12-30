@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function add_uploaded_image_tag(imgTag) {
         var elem = document.getElementById('uploaded-image-tag');
-        elem.appendChild(escape_html(imgTag));
+        elem.innerHTML = escape_html(imgTag);
         elem.style.display = 'block';
     }
 
