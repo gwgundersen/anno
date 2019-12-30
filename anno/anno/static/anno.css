@@ -149,13 +149,17 @@ a.label:hover {
 }
 
 #edit-page #edit-field {
-    height: 502px;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    height: 598px;
 }
 
 #edit-page #edit-preview {
-    height: 600px;
+    border: 1px solid rgba(0, 0, 0, 0.8);
     float: right;
-    margin-top: 44px;
+    margin-top: 65px;
+    margin-bottom: 50px;
+    max-height: 600px;
+    overflow-y: scroll;
 }
 
 #edit-page .nav,

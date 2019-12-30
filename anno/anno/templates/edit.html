@@ -7,14 +7,10 @@
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
 
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
-    <script
-            type="text/javascript"
-            async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML,/static/js/mathjaxmacros.js"></script>
+    <!-- Libraries -->
+    <script src='{{ url_for("static", filename="jquery.min.js") }}'></script>
+    <link rel='stylesheet' type='text/css' href='{{ url_for("static", filename="katex/katex.min.css") }}'>
+    <script defer type='text/javascript' src='{{ url_for("static", filename="katex/katex.min.js") }}'></script>
 
     <!-- Custom -->
     <script src='{{ url_for("static", filename="anno.js") }}'></script>
@@ -60,5 +56,8 @@
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', annoRenderMath);
+    </script>
 </body>
 </html>

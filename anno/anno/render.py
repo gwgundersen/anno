@@ -10,8 +10,9 @@ import re
 # -----------------------------------------------------------------------------
 
 def render_markdown(value):
+    extra_args = ['--katex']
     output = pypandoc.convert_text(value, to='html5', format='md',
-                                   extra_args=['--mathjax'])
+                                   extra_args=extra_args)
     return output
 
 
@@ -36,7 +37,7 @@ def parse_frontmatter(text):
     _, fm, content = FM_BOUNDARY.split(text, 2)
     parts = [p for p in fm.split('\n') if p]
     meta = {x[0].strip(): x[1].strip()
-            for x in [x.split(':') for x in parts]}
+            for x in [x.split(':', 1) for x in parts]}
     return meta
 
 

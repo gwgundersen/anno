@@ -40,11 +40,6 @@ def index():
                            include_nav=False, no_notes_msg=no_notes_msg)
 
 
-# @app.route('/static/<string:filename>')
-# def static(filename):
-#     return os.getcwd()
-
-
 @app.route('/<string:note_uid>', methods=['GET'])
 def render(note_uid):
     note = get_note(note_uid)

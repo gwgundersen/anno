@@ -3,11 +3,17 @@
 <head>
     <meta charset='UTF-8'>
     <title>{{ note.title }}</title>
-    <script
-        type="text/javascript"
-        async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML,/static/js/mathjaxmacros.js"></script>
 
+    <link rel='stylesheet' href='{{ url_for("static", filename="markdown.css") }}'/>
+    <link rel='stylesheet' href='{{ url_for("static", filename="anno.css") }}'/>
+
+    <!-- Libraries -->
+    <script src='{{ url_for("static", filename="jquery.min.js") }}'></script>
+    <link rel='stylesheet' type='text/css' href='{{ url_for("static", filename="katex/katex.min.css") }}'>
+    <script defer type='text/javascript' src='{{ url_for("static", filename="katex/katex.min.js") }}'></script>
+
+    <!-- Custom -->
+    <script src='{{ url_for("static", filename="anno.js") }}'></script>
     <link rel='stylesheet' href='{{ url_for("static", filename="markdown.css") }}'/>
     <link rel='stylesheet' href='{{ url_for("static", filename="anno.css") }}'/>
 </head>
@@ -41,5 +47,8 @@
     <div class='anno content markdown-body'>
         {{ text | safe }}
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', annoRenderMath);
+    </script>
 </body>
 </html>

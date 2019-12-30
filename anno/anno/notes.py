@@ -172,7 +172,7 @@ class Note:
 
     def create_file(self):
         if os.path.exists(self.path):
-            raise ValueError('File already exists.')
+            raise ValueError(f'File {self.path} already exists.')
         with open(self.path, 'w') as f:
             f.write(self.text)
 

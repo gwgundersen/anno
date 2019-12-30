@@ -1,2 +1,2 @@
 include anno/anno/templates/*
-include anno/anno/static/*
+recursive-include anno/anno/static/ *

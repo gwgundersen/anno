@@ -1,3 +1,18 @@
+function annoRenderMath() {
+    var math = document.getElementsByClassName('math'),
+        el, i;
+    for (i = 0; i < math.length; i++) {
+        el = math[i];
+        if (el.classList[1] === 'inline') {
+            katex.render(el.textContent, el);
+        } else {
+            katex.render(el.textContent, el, {
+                displayMode: true
+            });
+        }
+    }
+}
+
 $(function() {
 
     watch_edits();
@@ -7,7 +22,7 @@ $(function() {
         var $text = $('textarea#edit-field'),
             $preview = $('#edit-preview');
 
-        if ($text.length == 0) {
+        if ($text.length === 0) {
             return;
         }
         refresh_preview();
@@ -24,7 +39,7 @@ $(function() {
                 },
                 success: function(data) {
                     $preview.html(data);
-                    MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+                    annoRenderMath();
                 }
             });
         }
