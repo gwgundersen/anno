@@ -7,10 +7,13 @@ ANNO.renderMath = function () {
     for (i = 0; i < math.length; i++) {
         el = math[i];
         if (el.classList[1] === 'inline') {
-            katex.render(el.textContent, el);
+            katex.render(el.textContent, el, {
+                throwOnError: false
+            });
         } else {
             katex.render(el.textContent, el, {
-                displayMode: true
+                displayMode: true,
+                throwOnError: false
             });
         }
     }
@@ -34,22 +37,19 @@ ANNO.escapeHTML = function (string) {
 
 /* Credit: https://davidwalsh.name/javascript-debounce-function.
  */
-ANNO.debounce = function (func, wait, immediate) {
+ANNO.debounce = function (func, wait) {
     var timeout;
     return function () {
         var context = this,
             args = arguments,
-            later, callNow;
+            later;
         later = function () {
             timeout = null;
-            if (!immediate) {
-                func.apply(context, args);
-            }
+            func.apply(context, args);
         };
-        callNow = immediate && !timeout;
-        clearTimeout(timeout);
+        clearTimeout(!timeout);
         timeout = setTimeout(later, wait);
-        if (callNow) {
+        if (!timeout) {
             func.apply(context, args);
         }
     };
@@ -69,69 +69,70 @@ ANNO.ajax = function (url, callback, method, data) {
 };
 
 
-document.addEventListener('DOMContentLoaded', function () {
+ANNO.watchEdits = function () {
+    var text = document.getElementById('edit-field'),
+        preview = document.getElementById('edit-preview');
 
-    watch_edits();
-    handle_images();
+    refreshPreview();
+    text.addEventListener('input', refreshPreview);
+    // text.addEventListener('keyup', ANNO.debounce(refreshPreview, 1000));
 
-    function watch_edits() {
-        var $text = $('textarea#edit-field'),
-            $preview = $('#edit-preview');
-
-        if ($text.length === 0) {
-            return;
-        }
-        refreshPreview();
-
-        $text.change(refreshPreview);
-        $text.keyup(ANNO.debounce(refreshPreview, 1000));
-
-        function refreshPreview() {
-            var success,
-                data;
-            success = function(data) {
-                $preview.html(data);
-                ANNO.renderMath();
-            };
-            data = new FormData();
-            data.append('note_text', $text.val());
-            ANNO.ajax('/preview', success, 'POST', data);
-        }
+    function refreshPreview() {
+        var success,
+            data;
+        success = function (data) {
+            preview.innerHTML = data;
+            ANNO.renderMath();
+        };
+        data = new FormData();
+        data.append('note_text', text.value);
+        ANNO.ajax('/preview', success, 'POST', data);
     }
+};
 
-    function handle_images() {
-        $('.image-uploader button').click(function (evt) {
-            evt.preventDefault();
-            var $uploader = $(evt.target).parent(),
-                $input = $uploader.find('input#image-upload-btn');
 
-            $(':file').unbind('change');
-            $('#uploaded-image-tag').empty();
-            $input.trigger('click');
+ANNO.addUploadedImageTag = function (imgTag) {
+    var elem = document.getElementById('uploaded-image-tag');
+    elem.innerHTML = ANNO.escapeHTML(imgTag);
+    elem.style.display = 'block';
+};
 
-            $(':file').change(function () {
-                var file = $input[0].files[0],
-                    formData;
-                formData = new FormData();
-                formData.append('file', file);
-                $.ajax({
-                    url: '/image',
-                    type: 'POST',
-                    data: formData,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        addUploadedImageTag(data);
-                    }
-                }, 'json');
-            });
+
+ANNO.handleImages = function () {
+    var btn = document.querySelector('#image-uploader button');
+    btn.addEventListener('click', uploadImage);
+
+    function uploadImage(evt) {
+        evt.preventDefault();
+        var $uploader = $(evt.target).parent(),
+            $input = $uploader.find('input#image-upload-btn');
+
+        $(':file').unbind('change');
+        $('#uploaded-image-tag').empty();
+        $input.trigger('click');
+
+        $(':file').change(function () {
+            var file = $input[0].files[0],
+                formData;
+            formData = new FormData();
+            formData.append('file', file);
+            $.ajax({
+                url: '/image',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    ANNO.addUploadedImageTag(data);
+                }
+            }, 'json');
         });
     }
+};
 
-    function addUploadedImageTag(imgTag) {
-        var elem = document.getElementById('uploaded-image-tag');
-        elem.innerHTML = ANNO.escapeHTML(imgTag);
-        elem.style.display = 'block';
-    }
+
+document.addEventListener('DOMContentLoaded', function () {
+    ANNO.watchEdits();
+    ANNO.handleImages();
 });
