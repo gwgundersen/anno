@@ -1,4 +1,7 @@
-function annoRenderMath() {
+var ANNO = {};
+
+
+ANNO.renderMath = function () {
     var math = document.getElementsByClassName('math'),
         el, i;
     for (i = 0; i < math.length; i++) {
@@ -11,9 +14,62 @@ function annoRenderMath() {
             });
         }
     }
-}
+};
 
-document.addEventListener('DOMContentLoaded', function() {
+
+ANNO.escapeHTML = function (string) {
+    var entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
+};
+
+
+/* Credit: https://davidwalsh.name/javascript-debounce-function.
+ */
+ANNO.debounce = function (func, wait, immediate) {
+    var timeout;
+    return function () {
+        var context = this,
+            args = arguments,
+            later, callNow;
+        later = function () {
+            timeout = null;
+            if (!immediate) {
+                func.apply(context, args);
+            }
+        };
+        callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) {
+            func.apply(context, args);
+        }
+    };
+};
+
+
+ANNO.ajax = function (url, callback, method, data) {
+    var async = true;
+    var x = new XMLHttpRequest();
+    x.open(method, url, async);
+    x.onreadystatechange = function () {
+        if (x.readyState === 4) {
+            callback(x.responseText)
+        }
+    };
+    x.send(data)
+};
+
+
+document.addEventListener('DOMContentLoaded', function () {
 
     watch_edits();
     handle_images();
@@ -25,49 +81,26 @@ document.addEventListener('DOMContentLoaded', function() {
         if ($text.length === 0) {
             return;
         }
-        refresh_preview();
+        refreshPreview();
 
-        $text.change(refresh_preview);
-        $text.keyup(debounce(refresh_preview, 1000));
+        $text.change(refreshPreview);
+        $text.keyup(ANNO.debounce(refreshPreview, 1000));
 
-        function refresh_preview() {
-            $.ajax({
-                url: '/preview',
-                type: 'POST',
-                data: {
-                    note_text: $text.val()
-                },
-                success: function(data) {
-                    $preview.html(data);
-                    annoRenderMath();
-                }
-            });
+        function refreshPreview() {
+            var success,
+                data;
+            success = function(data) {
+                $preview.html(data);
+                ANNO.renderMath();
+            };
+            data = new FormData();
+            data.append('note_text', $text.val());
+            ANNO.ajax('/preview', success, 'POST', data);
         }
     }
 
-    /* Credit: https://davidwalsh.name/javascript-debounce-function.
-     */
-    function debounce(func, wait, immediate) {
-        var timeout;
-        return function() {
-            var context = this, args = arguments;
-            var later = function() {
-                timeout = null;
-                if (!immediate) {
-                    func.apply(context, args);
-                }
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow) {
-                func.apply(context, args);
-            }
-        };
-    }
-
     function handle_images() {
-        $('.image-uploader button').click(function(evt) {
+        $('.image-uploader button').click(function (evt) {
             evt.preventDefault();
             var $uploader = $(evt.target).parent(),
                 $input = $uploader.find('input#image-upload-btn');
@@ -89,30 +122,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                        add_uploaded_image_tag(data);
+                        addUploadedImageTag(data);
                     }
                 }, 'json');
             });
         });
     }
 
-    function add_uploaded_image_tag(imgTag) {
+    function addUploadedImageTag(imgTag) {
         var elem = document.getElementById('uploaded-image-tag');
-        elem.innerHTML = escape_html(imgTag);
+        elem.innerHTML = ANNO.escapeHTML(imgTag);
         elem.style.display = 'block';
-    }
-
-    function escape_html(string) {
-        var entityMap = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': '&quot;',
-            "'": '&#39;',
-            "/": '&#x2F;'
-        };
-        return String(string).replace(/[&<>"'\/]/g, function (s) {
-            return entityMap[s];
-        });
     }
 });
