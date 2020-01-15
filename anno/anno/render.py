@@ -32,13 +32,18 @@ def make_pdf(note):
 
 
 def parse_frontmatter(text):
-    # Credit: https://github.com/eyeseast/python-frontmatter/
-    FM_BOUNDARY = re.compile(r'^-{3,}\s*$', re.MULTILINE)
-    _, fm, content = FM_BOUNDARY.split(text, 2)
-    parts = [p for p in fm.split('\n') if p]
-    meta = {x[0].strip(): x[1].strip()
-            for x in [x.split(':', 1) for x in parts]}
-    return meta
+    if not text.startswith('---'):
+        raise ValueError('Files must contain frontmatter with title and date.')
+    try:
+        # Credit: https://github.com/eyeseast/python-frontmatter/
+        FM_BOUNDARY = re.compile(r'^-{3,}\s*$', re.MULTILINE)
+        _, fm, content = FM_BOUNDARY.split(text, 2)
+        parts = [p for p in fm.split('\n') if p]
+        meta = {x[0].strip(): x[1].strip()
+                for x in [x.split(':', 1) for x in parts]}
+        return meta
+    except ValueError:
+        raise ValueError('Error parsing frontmatter.')
 
 
 def jinja2_filter_date_to_string(date_str):

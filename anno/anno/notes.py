@@ -78,8 +78,12 @@ def get_identifiers(title, date):
 
 # FIXME: What's the best way to handle this?
 # https://stackoverflow.com/a/9517287/1830334
-def normalize_date(date):
-    return date
+def normalize_date(date_text):
+    try:
+        datetime.datetime.strptime(date_text, '%Y-%m-%d')
+    except ValueError:
+        raise ValueError(f'Incorrect data format {date_text}. Use YYYY-MM-DD.')
+    return date_text
 
 
 def labels_str_to_list(labels):
@@ -121,12 +125,14 @@ class Note:
 
         self.title  = fm.get('title')
         self.author = fm.get('author')
-        self.date   = normalize_date(fm.get('date'))
+        self.date   = fm.get('date')
 
         if self.title is None:
-            raise AttributeError('a title must be given.')
+            raise AttributeError('A title must be given.')
         if self.date is None:
-            raise AttributeError('a date must be given.')
+            raise AttributeError('A date must be given.')
+
+        self.date = normalize_date(self.date)
 
         # We treat/render the title, date, and author differently from other
         # metadata.

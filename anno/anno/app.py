@@ -62,7 +62,12 @@ date: %s
                                default_text=default_text)
     else:
         new_text = request.form.get('note_text')
-        note = Note(new_text)
+        try:
+            note = Note(new_text)
+        except (ValueError, AttributeError) as e:
+            flash(str(e))
+            return render_template('new.html',
+                                   default_text=new_text)
         if note_exists(note.uid):
             flash('New note has same date and title as another note.')
             return render_template('new.html', default_text=new_text)
@@ -80,9 +85,14 @@ def edit(note_uid):
     else:
         new_text = request.form.get('note_text')
         old_note = get_note(note_uid)
-        new_note = Note(new_text)
+        try:
+            new_note = Note(new_text)
+        except (ValueError, AttributeError) as e:
+            flash(str(e))
+            return redirect(url_for('edit', note_uid=old_note.uid))
         if new_note.uid != old_note.uid and note_exists(new_note.uid):
-            flash('Modified note has same date and title as another note.')
+            flash('Modified note has same date and title as another note. '
+                  'File was not created.')
             return redirect(url_for('edit', note_uid=old_note.uid))
         else:
             old_note.remove_file()
