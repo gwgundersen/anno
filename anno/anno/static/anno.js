@@ -35,27 +35,6 @@ ANNO.escapeHTML = function (string) {
 };
 
 
-/* Credit: https://davidwalsh.name/javascript-debounce-function.
- */
-ANNO.debounce = function (func, wait) {
-    var timeout;
-    return function () {
-        var context = this,
-            args = arguments,
-            later;
-        later = function () {
-            timeout = null;
-            func.apply(context, args);
-        };
-        clearTimeout(!timeout);
-        timeout = setTimeout(later, wait);
-        if (!timeout) {
-            func.apply(context, args);
-        }
-    };
-};
-
-
 ANNO.ajax = function (url, callback, method, data) {
     var async = true;
     var x = new XMLHttpRequest();
@@ -74,8 +53,27 @@ ANNO.watchEdits = function () {
         preview = document.getElementById('edit-preview');
 
     refreshPreview();
-    text.addEventListener('input', refreshPreview);
-    // text.addEventListener('keyup', ANNO.debounce(refreshPreview, 1000));
+    text.addEventListener('keyup', debounce(refreshPreview, 500));
+
+    /* Credit: https://davidwalsh.name/javascript-debounce-function.
+     */
+    function debounce(func, wait) {
+        var timeout;
+        return function() {
+            var context = this,
+                args = arguments,
+                later;
+            later = function() {
+                timeout = null;
+                func.apply(context, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (!timeout) {
+                func.apply(context, args);
+            }
+        };
+    }
 
     function refreshPreview() {
         var success,
@@ -85,8 +83,10 @@ ANNO.watchEdits = function () {
             ANNO.renderMath();
         };
         data = new FormData();
-        data.append('note_text', text.value);
-        ANNO.ajax('/preview', success, 'POST', data);
+        if (text) {
+            data.append('note_text', text.value);
+            ANNO.ajax('/preview', success, 'POST', data);
+        }
     }
 };
 
