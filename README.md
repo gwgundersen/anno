@@ -29,7 +29,9 @@ Anno supports:
 - Syncing Markdown front matter (title and date) into consistently formatted filenames.
 - Converting notes into [LaTeX](https://www.latex-project.org/) PDFs for easy printing and sharing.
     
-## Installation and usage
+## Installation
+
+### From PyPI
 
 Anno is available as a [PyPI package](https://pypi.org/project/anno/). To install, run
 
@@ -37,7 +39,20 @@ Anno is available as a [PyPI package](https://pypi.org/project/anno/). To instal
 pip install anno
 ```
 
-To use, type `anno` in the desired directory, e.g.
+### From source
+
+You can also install the current development version by building and installing:
+
+```bash
+git clone git@github.com:gwgundersen/anno.git
+cd anno
+python setup.py sdist
+pip install dist/anno-<VERSION>.tar.gz
+``` 
+
+## Usage
+
+To use Anno, type `anno` in the desired directory, e.g.
 
 ```bash
 cd ~/myproject
@@ -48,4 +63,10 @@ and Anno will start a web server on port 5000 and open the app with your default
 
 ```bash
 anno --port=4000
+```
+
+If you would prefer Anno did not open a new browser tab, pass the `--nopen` flag:
+
+```bash
+anno --nopen
 ```

@@ -8,7 +8,7 @@ import webbrowser
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--open',
+    parser.add_argument('--nopen',
                         help='Open browser tab.',
                         action='store_true')
     parser.add_argument('--port',
@@ -17,7 +17,7 @@ def main():
                         default=5000)
     args = parser.parse_args()
 
-    if args.open:
+    if not args.nopen:
         webbrowser.open_new_tab(f'http://localhost:{args.port}/')
 
     app.run(debug=True,
