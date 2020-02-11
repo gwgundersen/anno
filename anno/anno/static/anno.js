@@ -50,7 +50,8 @@ ANNO.ajax = function (url, callback, method, data) {
 
 ANNO.watchEdits = function () {
     var text = document.getElementById('edit-field'),
-        preview = document.getElementById('edit-preview');
+        preview = document.getElementById('edit-preview'),
+        saveMsgTimeout;
 
     refreshPreview();
     autosave();
@@ -105,6 +106,7 @@ ANNO.watchEdits = function () {
         var data = new FormData(),
             elem,
             url;
+
         if (text) {
             data.append('note_text', text.value);
             url = window.location.pathname.replace('/edit', '/save');
@@ -112,9 +114,11 @@ ANNO.watchEdits = function () {
                 d = JSON.parse(d);
                 if (d['success']) {
                     success(d['data']);
-                    setTimeout(function() {
+                    saveMsgTimeout = setTimeout(function() {
                         elem.innerHTML = '';
                     }, 7000);
+                } else {
+                    clearTimeout(saveMsgTimeout);
                 }
                 elem = document.getElementById('flashes');
                 if (d['success'] && auto) {
