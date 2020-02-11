@@ -18,12 +18,12 @@
     <link rel='stylesheet' href='{{ url_for("static", filename="anno.css") }}'/>
 </head>
 <body id='edit-page'>
-    {% include 'flashes.html' %}
     <div class='nav-wrapper'>
         <div class='nav content'>
             <a href='/{{ note.url }}'>Back</a>
         </div>
     </div>
+    {% include 'flashes.html' %}
     <div class='content-wrapper'>
         <div class='content'>
             <div id='uploaded-image-tag' class='hidden mono'></div>
@@ -50,10 +50,10 @@
                 <div id='edit-preview' class='markdown-body'></div>
                 <button type='submit'
                         class='btn'
-                        id='edit-submit-btn'>Edit text</button>
+                        id='edit-submit-btn'>Save</button>
                 <textarea id='edit-field' type='text' name='note_text' class='form-control'>{{ note.text }}</textarea>
-                <div class='clear'></div>
             </form>
+            <div class='clear'></div>
         </div>
     </div>
     <script>

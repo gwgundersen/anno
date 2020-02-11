@@ -13,6 +13,7 @@ from   anno.anno.notes import (get_notes,
 from   datetime import datetime
 from   flask import (Flask,
                      flash,
+                     jsonify,
                      make_response,
                      send_file,
                      redirect,
@@ -80,8 +81,7 @@ date: %s
 def edit(note_uid):
     if request.method == 'GET':
         note = get_note(note_uid)
-        return render_template('edit.html', note=note,
-                               rendered_text=render_markdown(note.text))
+        return render_template('edit.html', note=note)
     else:
         new_text = request.form.get('note_text')
         old_note = get_note(note_uid)
@@ -89,15 +89,47 @@ def edit(note_uid):
             new_note = Note(new_text)
         except (ValueError, AttributeError) as e:
             flash(str(e))
-            return redirect(url_for('edit', note_uid=old_note.uid))
+            old_note.text = new_text
+            return render_template('edit.html', note=old_note)
         if new_note.uid != old_note.uid and note_exists(new_note.uid):
             flash('Modified note has same date and title as another note. '
                   'File was not created.')
-            return redirect(url_for('edit', note_uid=old_note.uid))
+            return render_template('edit.html', note=new_note)
         else:
             old_note.remove_file()
             new_note.create_file()
             return redirect(url_for('render', note_uid=new_note.uid))
+
+
+@app.route('/<string:note_uid>/save', methods=['POST'])
+def save(note_uid):
+    new_text = request.form.get('note_text')
+    old_note = get_note(note_uid)
+    try:
+        new_note = Note(new_text)
+    except (ValueError, AttributeError) as e:
+        print(str(e))
+        return jsonify({
+            'message': f'Not saved. {str(e)}',
+            'success': False,
+            'data': ''
+        })
+    if new_note.uid != old_note.uid and note_exists(new_note.uid):
+        message = 'Not saved. Modified note has same date and title as ' \
+                  'another note. File was not created.'
+        return jsonify({
+            'message': message,
+            'success': False,
+            'data': ''
+        })
+    else:
+        old_note.remove_file()
+        new_note.create_file()
+        return jsonify({
+            'message': 'File saved.',
+            'success': True,
+            'data': render_markdown(new_text)
+        })
 
 
 @app.route('/preview', methods=['POST'])

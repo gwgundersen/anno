@@ -152,6 +152,12 @@ a.label:hover {
     opacity: 0.8;
 }
 
+#edit-page #flashes {
+    color: #B95E04;
+    font-weight: bold;
+    height: 10px;
+}
+
 #edit-page #edit-field,
 #edit-page #edit-preview {
     width: 49%;

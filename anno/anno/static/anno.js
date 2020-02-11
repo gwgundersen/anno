@@ -53,7 +53,19 @@ ANNO.watchEdits = function () {
         preview = document.getElementById('edit-preview');
 
     refreshPreview();
-    text.addEventListener('keyup', debounce(refreshPreview, 500));
+    autosave();
+    if (text) {
+        text.addEventListener('keyup', debounce(refreshPreview, 500));
+    }
+    window.addEventListener('keydown', function(event) {
+        if (event.ctrlKey || event.metaKey) {
+            var key = String.fromCharCode(event.which).toLowerCase();
+            if (key === 's') {
+                event.preventDefault();
+                save(false);
+            }
+        }
+    });
 
     /* Credit: https://davidwalsh.name/javascript-debounce-function.
      */
@@ -75,18 +87,52 @@ ANNO.watchEdits = function () {
         };
     }
 
+    function success(data) {
+        preview.innerHTML = data;
+        ANNO.renderMath();
+    }
+
     function refreshPreview() {
-        var success,
-            data;
-        success = function (data) {
-            preview.innerHTML = data;
-            ANNO.renderMath();
-        };
+        var data;
         data = new FormData();
         if (text) {
             data.append('note_text', text.value);
             ANNO.ajax('/preview', success, 'POST', data);
         }
+    }
+
+    function save(auto) {
+        var data = new FormData(),
+            elem,
+            url;
+        if (text) {
+            data.append('note_text', text.value);
+            url = window.location.pathname.replace('/edit', '/save');
+            ANNO.ajax(url, function(d) {
+                d = JSON.parse(d);
+                if (d['success']) {
+                    success(d['data']);
+                    setTimeout(function() {
+                        elem.innerHTML = '';
+                    }, 7000);
+                }
+                elem = document.getElementById('flashes');
+                if (d['success'] && auto) {
+                    elem.innerHTML = 'Auto-saved.'
+                } else {
+                    elem.innerHTML = d['message'];
+                }
+            }, 'POST', data);
+        }
+    }
+
+    function autosave() {
+        // Save every 120 seconds:
+        // https://github.com/gwgundersen/anno/issues/16
+        var SAVE_EVERY = 120000;
+        window.setInterval(function() {
+            save(true);
+        }, SAVE_EVERY);
     }
 };
 

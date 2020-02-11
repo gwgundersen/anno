@@ -82,7 +82,7 @@ def normalize_date(date_text):
     try:
         datetime.datetime.strptime(date_text, '%Y-%m-%d')
     except ValueError:
-        raise ValueError(f'Incorrect data format {date_text}. Use YYYY-MM-DD.')
+        raise ValueError(f'Incorrect date format {date_text}. Use YYYY-MM-DD.')
     return date_text
 
 
