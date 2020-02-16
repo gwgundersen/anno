@@ -11,9 +11,11 @@ from   anno.anno.render import parse_frontmatter
 from   anno.anno.config import c
 
 
-NOTES_DIR   = '.'
+NOTES_DIR = '.'
 
 
+# -----------------------------------------------------------------------------
+# Utility functions.
 # -----------------------------------------------------------------------------
 
 def get_notes(label=None):
@@ -62,8 +64,6 @@ def get_identifiers(fm):
     return path, fname, uid
 
 
-# FIXME: What's the best way to handle this?
-# https://stackoverflow.com/a/9517287/1830334
 def normalize_date(date_text):
     try:
         datetime.datetime.strptime(date_text, '%Y-%m-%d')
@@ -103,6 +103,8 @@ def search_notes(keyword):
 
 
 # -----------------------------------------------------------------------------
+# Note object.
+# -----------------------------------------------------------------------------
 
 class Note:
 
@@ -138,13 +140,6 @@ class Note:
             self.remove_file(orig_fname)
             self.create_file()
 
-    @classmethod
-    def from_fname(cls, fname):
-        path = join(NOTES_DIR, fname)
-        with open(path) as f:
-            text = f.read()
-        return cls(text, orig_fname=fname)
-
     @property
     def url(self):
         return self.uid
@@ -152,6 +147,13 @@ class Note:
     @property
     def pdf_fname(self):
         return str(Path(self.fname).with_suffix('.pdf'))
+
+    @classmethod
+    def from_fname(cls, fname):
+        path = join(NOTES_DIR, fname)
+        with open(path) as f:
+            text = f.read()
+        return cls(text, orig_fname=fname)
 
     @classmethod
     def is_note(cls, fname):

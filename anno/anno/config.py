@@ -6,10 +6,13 @@ import importlib.util
 import os
 from   pathlib import Path
 
+
 # Location of user-generated config file.
 CPATH = Path(os.getcwd(), '.anno_config.py')
 
 
+# -----------------------------------------------------------------------------
+# Utility functions.
 # -----------------------------------------------------------------------------
 
 def standardize_title(title):
@@ -85,6 +88,8 @@ def merge_configs():
 
 
 # -----------------------------------------------------------------------------
+# Configuration object for easy dot access.
+# -----------------------------------------------------------------------------
 
 class Config:
 
@@ -104,6 +109,8 @@ class Config:
         return uid
 
 
+# -----------------------------------------------------------------------------
+# Construct globally accessible, merged config.
 # -----------------------------------------------------------------------------
 
 c = merge_configs()
