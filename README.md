@@ -70,3 +70,11 @@ If you would prefer Anno did not open a new browser tab, pass the `--nopen` flag
 ```bash
 anno --nopen
 ```
+
+You can customize Anno using an `.anno_config.py` file. To generate this file, run
+
+```bash
+anno --generate-config
+```
+
+This allows for customizations such as changing how dates are rendered, how filenames are constructed, and which file extensions are used by default.
