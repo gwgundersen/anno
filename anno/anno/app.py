@@ -2,6 +2,7 @@
 Configure and start local Anno notebook.
 ============================================================================"""
 
+from   anno.anno.config import c
 from   anno.anno.render import (jinja2_filter_date_to_string,
                                 render_markdown,
                                 make_pdf)
@@ -24,6 +25,8 @@ import os
 
 
 # -----------------------------------------------------------------------------
+# Setup app.
+# -----------------------------------------------------------------------------
 
 app = Flask(__name__)
 app.secret_key = 'This key is required for `flash()`.'
@@ -31,13 +34,14 @@ app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
 
 
 # -----------------------------------------------------------------------------
+# Routes.
+# -----------------------------------------------------------------------------
 
 @app.route('/', methods=['GET'])
 def index():
-    title = os.getcwd().split('/')[-1]
     notes = get_notes()
     no_notes_msg = f'No notes in "{os.getcwd()}".'
-    return render_template('index.html', notes=notes, title=title,
+    return render_template('index.html', notes=notes, title=c.notebook_title,
                            include_nav=False, no_notes_msg=no_notes_msg)
 
 
@@ -165,7 +169,7 @@ def label(label):
 @app.route('/image', methods=['POST'], defaults={'img_name': None})
 @app.route('/image/<string:img_name>', methods=['GET'])
 def image(img_name):
-    IMAGE_DIR = os.path.join(os.getcwd(), '_images')
+    IMAGE_DIR = os.path.join(os.getcwd(), c.image_dir)
     if request.method == 'GET':
         fpath = f'{IMAGE_DIR}/{img_name}'
         return send_file(fpath, mimetype='image/gif')

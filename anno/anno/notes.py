@@ -8,13 +8,10 @@ from   os import listdir
 from   os.path import isfile, join
 from   pathlib import Path
 from   anno.anno.render import parse_frontmatter
+from   anno.anno.config import c
 
 
-FILE_EXT    = '.anno.md'
 NOTES_DIR   = '.'
-ARCHIVE_DIR = '_archive'
-TRASH_DIR   = '_trash'
-PDF_DIR     = '_pdf'
 
 
 # -----------------------------------------------------------------------------
@@ -58,21 +55,10 @@ def note_exists(uid):
     return isinstance(get_note(uid), Note)
 
 
-def standardize_word(word):
-    """Standardize word in filename / URL.
-    """
-    return ''.join(e.lower() for e in word if e.isalnum())
-
-
-def get_identifiers(title, date):
-    parts = []
-    for w in title.split(' '):
-        sw = standardize_word(w)
-        if sw != '':
-            parts.append(sw)
-    uid = '-'.join([date] + parts)
-    fname = f'{uid}{FILE_EXT}'
-    path = os.path.join(NOTES_DIR, fname)
+def get_identifiers(fm):
+    uid   = c.gen_fname_base(fm)
+    fname = Path(uid).with_suffix(c.extension)
+    path  = os.path.join(NOTES_DIR, fname)
     return path, fname, uid
 
 
@@ -134,19 +120,19 @@ class Note:
 
         self.date = normalize_date(self.date)
 
-        # We treat/render the title, date, and author differently from other
-        # metadata.
-        self.meta     = fm
-        del self.meta['title']
-        del self.meta['date']
-        self.meta.pop('author', None)  # Safe delete.
-
-        path, fname, uid = get_identifiers(self.title, self.date)
+        path, fname, uid = get_identifiers(fm)
         self.text   = text
         self.path   = path
         self.fname  = fname
         self.uid    = uid
         self.labels = labels_str_to_list(fm.get('labels'))
+
+        # We treat/render the title, date, and author differently from other
+        # metadata.
+        self.meta = fm
+        del self.meta['title']
+        del self.meta['date']
+        self.meta.pop('author', None)  # Safe delete.
 
         if orig_fname and orig_fname != fname:
             self.remove_file(orig_fname)
@@ -170,11 +156,11 @@ class Note:
     @classmethod
     def is_note(cls, fname):
         path = join(NOTES_DIR, fname)
-        return isfile(path) and fname.endswith(FILE_EXT)
+        return isfile(path) and fname.endswith(c.extension)
 
     @classmethod
     def get_uid_from_fname(cls, fname):
-        return fname.replace(FILE_EXT, '')
+        return fname.replace(c.extension, '')
 
     def create_file(self):
         if os.path.exists(self.path):
@@ -189,14 +175,14 @@ class Note:
             os.remove(self.path)
 
     def trash(self):
-        if not os.path.exists(TRASH_DIR):
-            os.makedirs(TRASH_DIR)
-        self._move_to_dir(TRASH_DIR)
+        if not os.path.exists(c.trash_dir):
+            os.makedirs(c.trash_dir)
+        self._move_to_dir(c.trash_dir)
 
     def archive(self):
-        if not os.path.exists(TRASH_DIR):
-            os.makedirs(ARCHIVE_DIR)
-        self._move_to_dir(ARCHIVE_DIR)
+        if not os.path.exists(c.archive_dir):
+            os.makedirs(c.archive_dir)
+        self._move_to_dir(c.archive_dir)
 
     def _move_to_dir(self, directory):
         fname = os.path.basename(self.path)
