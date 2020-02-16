@@ -2,6 +2,7 @@
 Functions for rendering Markdown and LaTeX as HTML.
 ============================================================================"""
 
+from   anno.anno.config import c
 import datetime
 import pypandoc
 import re
@@ -48,4 +49,4 @@ def parse_frontmatter(text):
 
 def jinja2_filter_date_to_string(date_str):
     date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
-    return date.strftime('%d %b %Y')
+    return date.strftime(c.datefmt)

@@ -12,7 +12,7 @@ description = 'Anno is a thin user interface on Markdown files for easy and ' \
 
 setup_args = dict(
     name='anno',
-    version='0.0.2',
+    version='0.0.3',
     license='MIT',
     author='Gregory Gundersen',
     author_email='greg@gregorygundersen.com',
