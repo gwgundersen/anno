@@ -97,7 +97,7 @@ class Config:
         self.archive_dir    = '_archive'
         self.image_dir      = '_images'
         self.trash_dir      = '_trash'
-        self.datefmt        = '%Y-%m-%d'
+        self.datefmt        = '%d %b %Y'
         self.extension      = '.anno.md'
         self.notebook_title = os.getcwd().split('/')[-1]
 
