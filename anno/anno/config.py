@@ -56,7 +56,7 @@ c = {}
 #     """
 #     return f"{fm['date']}-{fm['title']}"
 # c['gen_fname_base'] = gen_fname_base
-    '''
+'''
     if CPATH.exists():
         msg = f'User-generated config file already exists at: {CPATH}. ' \
               f'To reset the user config, please remove this file first.'
