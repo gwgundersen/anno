@@ -224,6 +224,11 @@ figure {
     padding: 20px 0;
 }
 
+img {
+    display: block;
+    margin: 0 auto;
+}
+
 figure figcaption {
     font-size: 13px;
     text-align: left;
