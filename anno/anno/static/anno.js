@@ -113,7 +113,8 @@ ANNO.watchEdits = function () {
             ANNO.ajax(url, function(d) {
                 var i,
                     forms,
-                    new_action;
+                    new_action,
+                    new_url;
 
                 d = JSON.parse(d);
                 if (d['success']) {
@@ -128,6 +129,11 @@ ANNO.watchEdits = function () {
                         );
                         forms[i].action = new_action;
                     }
+                    new_url = '/' + d['new_url'] + '/edit';
+                    // Notice that above, the AJAX request is built using the
+                    // current URL. I know, this is fantastic state-handling.
+                    // So we need to update the URL.
+                    window.history.replaceState({}, '', new_url);
                     saveMsgTimeout = setTimeout(function() {
                         elem.innerHTML = '';
                     }, 7000);
