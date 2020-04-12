@@ -22,6 +22,7 @@ from   flask import (Flask,
                      render_template,
                      url_for)
 import os
+from   urllib.parse import unquote_plus
 
 
 # -----------------------------------------------------------------------------
@@ -45,8 +46,9 @@ def index():
                            include_nav=False, no_notes_msg=no_notes_msg)
 
 
-@app.route('/<string:note_uid>', methods=['GET'])
-def render(note_uid):
+@app.route('/<string:note_url>', methods=['GET'])
+def render(note_url):
+    note_uid = unquote_plus(note_url)
     note = get_note(note_uid)
     if not note:
         flash(f'Note {note_uid} not found.')
@@ -78,11 +80,12 @@ date: %s
             return render_template('new.html', default_text=new_text)
 
         note.create_file()
-        return redirect(url_for('render', note_uid=note.uid))
+        return redirect(url_for('render', note_url=note.url))
 
 
-@app.route('/<string:note_uid>/edit', methods=['GET', 'POST'])
-def edit(note_uid):
+@app.route('/<string:note_url>/edit', methods=['GET', 'POST'])
+def edit(note_url):
+    note_uid = unquote_plus(note_url)
     if request.method == 'GET':
         note = get_note(note_uid)
         return render_template('edit.html', note=note)
@@ -102,11 +105,12 @@ def edit(note_uid):
         else:
             old_note.remove_file()
             new_note.create_file()
-            return redirect(url_for('render', note_uid=new_note.uid))
+            return redirect(url_for('render', note_url=new_note.url))
 
 
-@app.route('/<string:note_uid>/save', methods=['POST'])
-def save(note_uid):
+@app.route('/<string:note_url>/save', methods=['POST'])
+def save(note_url):
+    note_uid = unquote_plus(note_url)
     new_text = request.form.get('note_text')
     old_note = get_note(note_uid)
     try:
@@ -132,7 +136,9 @@ def save(note_uid):
         return jsonify({
             'message': 'File saved.',
             'success': True,
-            'data': render_markdown(new_text)
+            'old_url': old_note.url,
+            'new_url': new_note.url,
+            'data'   : render_markdown(new_text)
         })
 
 
@@ -142,16 +148,18 @@ def preview():
     return render_markdown(text)
 
 
-@app.route('/<string:note_uid>/delete', methods=['POST'])
-def delete(note_uid):
+@app.route('/<string:note_url>/delete', methods=['POST'])
+def delete(note_url):
+    note_uid = unquote_plus(note_url)
     note = get_note(note_uid)
     if note:
         note.trash()
     return redirect(url_for('index'))
 
 
-@app.route('/<string:note_uid>/archive', methods=['POST'])
-def archive(note_uid):
+@app.route('/<string:note_url>/archive', methods=['POST'])
+def archive(note_url):
+    note_uid = unquote_plus(note_url)
     note = get_note(note_uid)
     if note:
         note.archive()
@@ -185,8 +193,9 @@ def image(img_name):
         return f'![caption]({url}){{ width=50% }}'
 
 
-@app.route('/<string:note_uid>/pdf', methods=['GET'])
-def pdf(note_uid):
+@app.route('/<string:note_url>/pdf', methods=['GET'])
+def pdf(note_url):
+    note_uid = unquote_plus(note_url)
     note = get_note(note_uid)
     make_pdf(note)
     with open(note.pdf_fname, mode='rb') as f:
