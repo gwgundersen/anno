@@ -2,13 +2,14 @@
 Configure and start local Anno web server.
 ============================================================================"""
 
+from   anno.anno.render import parse_frontmatter
+from   anno.anno.config import c
 import datetime
 import os
 from   os import listdir
 from   os.path import isfile, join
 from   pathlib import Path
-from   anno.anno.render import parse_frontmatter
-from   anno.anno.config import c
+from   urllib.parse import quote_plus
 
 
 NOTES_DIR = '.'
@@ -142,7 +143,7 @@ class Note:
 
     @property
     def url(self):
-        return self.uid
+        return quote_plus(self.uid)
 
     @property
     def pdf_fname(self):

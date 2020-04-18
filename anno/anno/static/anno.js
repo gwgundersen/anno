@@ -111,9 +111,29 @@ ANNO.watchEdits = function () {
             data.append('note_text', text.value);
             url = window.location.pathname.replace('/edit', '/save');
             ANNO.ajax(url, function(d) {
+                var i,
+                    forms,
+                    new_action,
+                    new_url;
+
                 d = JSON.parse(d);
                 if (d['success']) {
                     success(d['data']);
+                    forms = document.getElementsByTagName('form');
+                    // Ensure the form action properties are in sync. See:
+                    // https://github.com/gwgundersen/anno/issues/19
+                    for (i = 0; i < forms.length; i++) {
+                        new_action = forms[i].action.replace(
+                            d['old_url'],
+                            d['new_url']
+                        );
+                        forms[i].action = new_action;
+                    }
+                    new_url = '/' + d['new_url'] + '/edit';
+                    // Notice that above, the AJAX request is built using the
+                    // current URL. I know, this is fantastic state-handling.
+                    // So we need to update the URL.
+                    window.history.replaceState({}, '', new_url);
                     saveMsgTimeout = setTimeout(function() {
                         elem.innerHTML = '';
                     }, 7000);
@@ -122,7 +142,7 @@ ANNO.watchEdits = function () {
                 }
                 elem = document.getElementById('flashes');
                 if (d['success'] && auto) {
-                    elem.innerHTML = 'Auto-saved.'
+                    elem.innerHTML = 'Auto-saved.';
                 } else {
                     elem.innerHTML = d['message'];
                 }
