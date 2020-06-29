@@ -18,7 +18,8 @@ def render_markdown(value):
 
 
 def make_pdf(note):
-    extra_args = ['-V', 'geometry:margin=1in', '--pdf-engine', 'pdflatex']
+    extra_args = ['-V', 'geometry:margin=1in', '--pdf-engine', 'pdflatex',
+				  '-V', 'colorlinks', '-V', 'urlcolor=NavyBlue']
 
     # FIXME. This is hacky. I'm replacing
     #   [my caption](/image/foo.png)
