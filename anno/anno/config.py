@@ -56,6 +56,19 @@ c = {}
 #     """
 #     return f"{fm['date']}-{fm['title']}"
 # c['gen_fname_base'] = gen_fname_base
+
+# # Specify how code style. For examples, see:
+# # https://www.garrickadenbuie.com/blog/pandoc-syntax-highlighting-examples/
+# # Options:
+# # - highlight-default.css
+# # - highlight-espressor.css
+# # - highlight-haddock.css
+# # - highlight-kate.css
+# # - highlight-monochrome.css
+# # - highlight-pygments.css
+# # - highlight-tango.css
+#
+# c['highlight_css'] = 'highlight-kate.css'
 '''
     if CPATH.exists():
         msg = f'User-generated config file already exists at: {CPATH}. ' \
@@ -100,6 +113,7 @@ class Config:
         self.datefmt        = '%Y-%m-%d'
         self.extension      = '.anno.md'
         self.notebook_title = os.getcwd().split('/')[-1]
+        self.highlight_css  = 'highlight-kate.css'
 
     def gen_fname_base(self, fm):
         date   = fm['date']

@@ -42,8 +42,11 @@ app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
 def index():
     notes = get_notes()
     no_notes_msg = f'No notes in "{os.getcwd()}".'
-    return render_template('index.html', notes=notes, title=c.notebook_title,
-                           include_nav=False, no_notes_msg=no_notes_msg)
+    return render_template('index.html',
+                           notes=notes,
+                           title=c.notebook_title,
+                           include_nav=False,
+                           no_notes_msg=no_notes_msg)
 
 
 @app.route('/<string:note_url>', methods=['GET'])
@@ -53,7 +56,9 @@ def render(note_url):
     if not note:
         flash(f'Note {note_uid} not found.')
         return redirect(url_for('index'))
-    return render_template('note.html', note=note,
+    return render_template('note.html',
+                           note=note,
+                           highlight_css=c.highlight_css,
                            text=render_markdown(note.text))
 
 
@@ -88,7 +93,9 @@ def edit(note_url):
     note_uid = unquote_plus(note_url)
     if request.method == 'GET':
         note = get_note(note_uid)
-        return render_template('edit.html', note=note)
+        return render_template('edit.html',
+                               note=note,
+                               highlight_css=c.highlight_css)
     else:
         new_text = request.form.get('note_text')
         old_note = get_note(note_uid)
@@ -97,11 +104,15 @@ def edit(note_url):
         except (ValueError, AttributeError) as e:
             flash(str(e))
             old_note.text = new_text
-            return render_template('edit.html', note=old_note)
+            return render_template('edit.html',
+                                   note=old_note,
+                                   highlight_css=c.highlight_css)
         if new_note.uid != old_note.uid and note_exists(new_note.uid):
             flash('Modified note has same date and title as another note. '
                   'File was not created.')
-            return render_template('edit.html', note=new_note)
+            return render_template('edit.html',
+                                   note=new_note,
+                                   highlight_css=c.highlight_css)
         else:
             old_note.remove_file()
             new_note.create_file()
