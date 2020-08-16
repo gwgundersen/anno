@@ -33,10 +33,21 @@
             {% if note.meta %}
                 <table>
                 {% for k, v in note.meta.items() %}
+                    {% if k == "labels" %}
+                    <tr>
+                        <td>{{ k }}</td>
+                        <td>
+                            {% for label in v.split(",") %}
+                                <a class='label {{ label }}' href='/label/{{ label }}'>{{ label }}</a>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% else %}
                     <tr>
                         <td>{{ k }}</td>
                         <td>{{ v }}</td>
                     </tr>
+                    {% endif %}
                 {% endfor %}
                 </table>
             {% endif %}
