@@ -3,6 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <link href='{{ url_for("static", filename="anno.css") }}' rel='stylesheet'/>
+    <script src='{{ url_for("static", filename="anno.js") }}'></script>
     {% if title != 'Anno' %}
         <title>Anno - {{ title }}</title>
     {% else %}
@@ -44,7 +45,7 @@
                     {% if item.labels %}
                         <td class='labels'>
                             {% for label in item.labels %}
-                                <a class='label' href='/label/{{ label }}'>{{ label }}</a>
+                                <a class='label {{ label }}' href='/label/{{ label }}'>{{ label }}</a>
                             {% endfor %}
                         </td>
                     {% else %}
