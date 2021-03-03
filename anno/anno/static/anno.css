@@ -88,20 +88,24 @@ table {
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     text-decoration: none;
 }
-
-#index-page a.label:link,
-#index-page a.label:visited,
-#index-page a.label:active {
-    background-color: #005f83;
-    color: white;
-    border-bottom: none;
+a.label:link,
+a.label:visited,
+a.label:active {
+    /* The color is overwritten by JS; this prevents "flickering" between
+     * colors.
+     */
+    background-color: white;
+    color: white !important;
+    border-bottom: none !important;
     font-size: 13px;
     padding: 2px 5px;
+    text-decoration: none !important;
 }
 
-#index-page a.label:hover {
+a.label:hover {
     opacity: 0.7;
-    border-bottom: none;
+    border-bottom: none !important;
+    text-decoration: none !important;
 }
 
 #index-page table {

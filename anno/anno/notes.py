@@ -73,6 +73,20 @@ def normalize_date(date_text):
     return date_text
 
 
+def get_labels():
+    labels = set()
+    for f in listdir(NOTES_DIR):
+        if Note.is_note(f):
+            note = Note.from_fname(f)
+            if not note.labels:
+                continue
+            if len(note.labels) > 1:
+                labels.update(note.labels)
+            else:
+                labels.add(note.labels[0])
+    return labels
+
+
 def labels_str_to_list(labels):
     if labels:
         labels = labels.split(',')

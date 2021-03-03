@@ -39,6 +39,8 @@ Anno is available as a [PyPI package](https://pypi.org/project/anno/). To instal
 pip install anno
 ```
 
+You must also install [Pandoc](https://pandoc.org/). To use the PDF converter, you need the `pdflatex` command, which ships with most TeX distributions.
+
 ### From source
 
 You can also install the current development version by building and installing:
@@ -48,7 +50,7 @@ git clone git@github.com:gwgundersen/anno.git
 cd anno
 python setup.py sdist
 pip install dist/anno-<VERSION>.tar.gz
-``` 
+```
 
 ## Usage
 
