@@ -24,6 +24,8 @@ from   flask import (Flask,
 import os
 from   urllib.parse import unquote_plus
 
+FNAME_WHITELIST = ['favicon.ico']
+
 
 # -----------------------------------------------------------------------------
 # Setup app.
@@ -53,7 +55,7 @@ def index():
 def render(note_url):
     note_uid = unquote_plus(note_url)
     note = get_note(note_uid)
-    if not note:
+    if not note and note_uid not in FNAME_WHITELIST:
         flash(f'Note {note_uid} not found.')
         return redirect(url_for('index'))
     return render_template('note.html',
