@@ -9,9 +9,11 @@ from   anno.anno.render import (jinja2_filter_date_to_string,
 from   anno.anno.notes import (get_labels,
                                get_notes,
                                get_note,
+                               get_note_dir,
                                Note,
                                note_exists,
-                               search_notes)
+                               search_notes,
+                               set_note_dir)
 from   datetime import datetime
 from   flask import (Flask,
                      flash,
@@ -41,24 +43,28 @@ app.jinja_env.filters['date_to_string'] = jinja2_filter_date_to_string
 # Routes.
 # -----------------------------------------------------------------------------
 
-@app.route('/', methods=['GET'])
-def index():
-    notes = get_notes()
-    no_notes_msg = f'No notes in "{os.getcwd()}".'
-    return render_template('index.html',
-                           notes=notes,
-                           title=c.notebook_title,
-                           include_nav=False,
-                           no_notes_msg=no_notes_msg)
+@app.route('/', methods=['GET'], defaults={'path': '.'})
+@app.route('/<path:path>', methods=['GET'])
+# @app.route('/<string:path>', methods=['GET'])
+def render(path):
+    path = unquote_plus(path)
 
+    if os.path.isdir(path):
+        set_note_dir(path)
+        notes = get_notes()
+        subdirs = get_subdirectories(path)
+        no_notes_msg = f'No notes in "{os.getcwd()}".'
+        return render_template('index.html',
+                               notes=notes,
+                               title=c.notebook_title,
+                               subdirs=subdirs,
+                               no_notes_msg=no_notes_msg)
 
-@app.route('/<string:note_url>', methods=['GET'])
-def render(note_url):
-    note_uid = unquote_plus(note_url)
-    note = get_note(note_uid)
-    if not note and note_uid not in FNAME_WHITELIST:
-        flash(f'Note {note_uid} not found.')
-        return redirect(url_for('index'))
+    note = get_note(path)
+    if not note and path not in FNAME_WHITELIST:
+        flash(f'Note {path} not found.')
+        return redirect(url_for('render'))
+
     return render_template('note.html',
                            note=note,
                            highlight_css=c.highlight_css,
@@ -88,7 +94,7 @@ date: %s
             return render_template('new.html', default_text=new_text)
 
         note.create_file()
-        return redirect(url_for('render', note_url=note.url))
+        return redirect(url_for('render', path=note.url))
 
 
 @app.route('/<string:note_url>/edit', methods=['GET', 'POST'])
@@ -119,18 +125,17 @@ def edit(note_url):
         else:
             old_note.remove_file()
             new_note.create_file()
-            return redirect(url_for('render', note_url=new_note.url))
+            return redirect(url_for('render', path=new_note.url))
 
 
-@app.route('/<string:note_url>/save', methods=['POST'])
-def save(note_url):
-    note_uid = unquote_plus(note_url)
+@app.route('/<string:path>/save', methods=['POST'])
+def save(path):
+    note_uid = unquote_plus(path)
     new_text = request.form.get('note_text')
     old_note = get_note(note_uid)
     try:
         new_note = Note(new_text)
     except (ValueError, AttributeError) as e:
-        print(str(e))
         return jsonify({
             'message': f'Not saved. {str(e)}',
             'success': False,
@@ -168,7 +173,7 @@ def delete(note_url):
     note = get_note(note_uid)
     if note:
         note.trash()
-    return redirect(url_for('index'))
+    return redirect(url_for('render'))
 
 
 @app.route('/<string:note_url>/archive', methods=['POST'])
@@ -177,7 +182,7 @@ def archive(note_url):
     note = get_note(note_uid)
     if note:
         note.archive()
-    return redirect(url_for('index'))
+    return redirect(url_for('render'))
 
 
 @app.route('/label/<string:label>', methods=['GET'])
@@ -243,5 +248,19 @@ def search():
     title   = f'search: "{keyword}"'
     no_notes_msg = 'No search results.'
     return render_template('index.html', notes=notes, title=title,
-                           show_home_btn=True, include_nav=False,
+                           show_home_btn=True,
                            no_notes_msg=no_notes_msg)
+
+
+# -----------------------------------------------------------------------------
+# Utility functions.
+# -----------------------------------------------------------------------------
+
+def get_subdirectories(directory):
+    results = ['.']
+    for d in os.listdir(directory):
+        if d.startswith('_') or d.startswith('.'):
+            continue
+        if os.path.isdir(os.path.join(directory, d)):
+            results.append(os.path.join(directory, d))
+    return results

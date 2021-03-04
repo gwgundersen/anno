@@ -12,7 +12,19 @@ from   pathlib import Path
 from   urllib.parse import quote_plus
 
 
+# -----------------------------------------------------------------------------
+
 NOTES_DIR = '.'
+
+
+def set_note_dir(new_val):
+    global NOTES_DIR
+    NOTES_DIR = new_val
+
+
+def get_note_dir():
+    global NOTES_DIR
+    return NOTES_DIR
 
 
 # -----------------------------------------------------------------------------
@@ -151,7 +163,7 @@ class Note:
         del self.meta['date']
         self.meta.pop('author', None)  # Safe delete.
 
-        if orig_fname and orig_fname != fname:
+        if orig_fname and orig_fname != fname.name:
             self.remove_file(orig_fname)
             self.create_file()
 
@@ -166,14 +178,21 @@ class Note:
     @classmethod
     def from_fname(cls, fname):
         path = join(NOTES_DIR, fname)
-        with open(path) as f:
+        with open(path, 'r', errors='surrogateescape') as f:
             text = f.read()
         return cls(text, orig_fname=fname)
 
     @classmethod
     def is_note(cls, fname):
         path = join(NOTES_DIR, fname)
-        return isfile(path) and fname.endswith(c.extension)
+        if not (isfile(path) and fname.endswith(c.extension)):
+            return False
+        # FIXME: This is a major hack.
+        try:
+            cls.from_fname(fname)
+            return True
+        except ValueError:
+            return False
 
     @classmethod
     def get_uid_from_fname(cls, fname):

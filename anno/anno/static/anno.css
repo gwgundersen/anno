@@ -137,6 +137,15 @@ a.label:hover {
     margin-bottom: 20px;
 }
 
+#index-page .title-wrapper .subdirs {
+    list-style: none;
+    padding-left: 0;
+}
+
+#index-page .title-wrapper .subdirs li {
+    display: inline;
+}
+
 #index-page #search_form {
     display: inline;
 }
