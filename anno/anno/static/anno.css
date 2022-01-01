@@ -1,3 +1,10 @@
+/*
+ Off white : #F7E6DC
+ Dark blue : #0C016E
+ Light blue: #1AA2DB
+ Red       : #FA200A
+ Orange    : #FA6B34
+ */
 body {
     margin: 0;
     padding: 0;
@@ -161,12 +168,6 @@ a.label:hover {
     opacity: 0.8;
 }
 
-#edit-page #flashes {
-    color: #B95E04;
-    font-weight: bold;
-    height: 10px;
-}
-
 #edit-page #edit-field,
 #edit-page #edit-preview {
     width: 49%;
@@ -208,16 +209,17 @@ a.label:hover {
     margin-top: 20px;
 }
 
-.flashes {
-    padding: 10px;
-    list-style: none;
-    background-color: #B95E04;
-    color: white;
+#flashes-banner {
+    background-color: #FA200A;
+    height: 30px;
+    padding: 7px 0 5px 0;
 }
 
-.flashes p {
-    margin: 0 auto;
-    width: 706px;
+#flashes-banner p.flash {
+    color: white;
+    display: inline-block;
+    margin: 0;
+    vertical-align: middle;
 }
 
 figure {

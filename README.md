@@ -4,7 +4,7 @@
 
 There are many note-taking apps. How is Anno different? Anno is a local, browser-based user interface on top of [Markdown](https://daringfireball.net/projects/markdown/) files in a given directory. It makes writing, organizing, and searching through those files easy. That's it. There are many benefits to this approach:
 
-- **Own your data.** Writing things down is an investment in your future. Rather than have your notes siloed by a company in a possibly proprietary text format, your data lives in plaintext files on your machine. If you use Anno for a while and then stop, no worries. Your data, Markdown files, is human-readable, easily portable to other tools, and programmatically convertable to other formats (see [Pandoc](https://pandoc.org/)).
+- **Own your data.** Writing things down is an investment in your future. Rather than have your notes siloed by a company in a possibly proprietary text format, your data lives in plaintext files on your machine. If you use Anno for a while and then stop, no worries. Your data, Markdown files, is human-readable, easily portable to other tools, and programmatically convertable to other formats (e.g. see [Pandoc](https://pandoc.org/)).
 
 - **Organize notes naturally.** Most note-taking apps create a new organizational system for your notes that is distinct from your filesystem. This forces you to store your notes separately from related files. Anno only works with `.anno.md` files in the current working directory, allowing you to organize your notes using your filesystem. Furthermore, all files with `labels` in the [YAML](https://yaml.org/)-style front matter can be viewed in their respective collections, making intra-directory organization easy without touching your underlying directory structure.
 
@@ -39,8 +39,6 @@ Anno is available as a [PyPI package](https://pypi.org/project/anno/). To instal
 pip install anno
 ```
 
-You must also install [Pandoc](https://pandoc.org/). To use the PDF converter, you need the `pdflatex` command, which ships with most TeX distributions.
-
 ### From source
 
 You can also install the current development version by building and installing:
@@ -51,6 +49,10 @@ cd anno
 python setup.py sdist
 pip install dist/anno-<VERSION>.tar.gz
 ```
+
+### LaTeX
+
+To use the PDF converter, you need [Pandoc](https://pandoc.org/) and the `pdflatex` command.
 
 ## Usage
 

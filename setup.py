@@ -20,7 +20,7 @@ setup_args = dict(
     url='https://github.com/gwgundersen/anno',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['flask>=1.1.1', 'pypandoc>=1.4'],
+    install_requires=['flask>=1.1.1', 'pypandoc>=1.4', 'markdown2'],
     entry_points={'console_scripts': ['anno = anno.annoapp:main']},
     python_requires='>=3.6'
 )
