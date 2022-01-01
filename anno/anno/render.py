@@ -4,20 +4,28 @@ Functions for rendering Markdown and LaTeX as HTML.
 
 from   anno.anno.config import c
 import datetime
-import pypandoc
+import markdown2
 import re
 
 
 # -----------------------------------------------------------------------------
 
 def render_markdown(value):
-    extra_args = ['--katex']
-    output = pypandoc.convert_text(value, to='html5', format='md',
-                                   extra_args=extra_args)
+    import pypandoc
+
+    try:
+        extra_args = ['--katex']
+        output = pypandoc.convert_text(value, to='html5', format='md',
+                                       extra_args=extra_args)
+    except OSError:
+        output = markdown2.markdown(value, extras=['metadata', 'footnotes'])
+
     return output
 
 
 def make_pdf(note):
+    import pypandoc
+
     extra_args = ['-V', 'geometry:margin=1in', '--pdf-engine', 'pdflatex',
                   '-V', 'colorlinks', '-V', 'urlcolor=NavyBlue']
 
@@ -25,9 +33,9 @@ def make_pdf(note):
     #   [my caption](/image/foo.png)
     # with
     #   [my caption](/_images/foo.png)
-    # because I can't figure out how to tell Pandoc where the image files live.
+    # because I can't figure out how to tell Pandoc where the image files
+    #   live.
     text = re.sub(r'(\(/image/)', '(_images/', note.text)
-
     pypandoc.convert_text(text, to='pdf', format='md',
                           extra_args=extra_args,
                           outputfile=note.pdf_fname)

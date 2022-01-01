@@ -1,9 +1,11 @@
 {% with messages = get_flashed_messages() %}
-    <div id='flashes' class='content-wrapper'>
     {% if messages %}
+    <div id='flashes-banner' class='content-wrapper'>
+        <div class='content'>
         {% for message in messages %}
-            <p>{{ message }}</p>
+            <p class='flash'>{{ message }}</p>
         {% endfor %}
-    {% endif %}
+        </div>
     </div>
+    {% endif %}
 {% endwith %}

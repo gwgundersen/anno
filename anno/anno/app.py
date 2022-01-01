@@ -226,7 +226,13 @@ def image(img_name):
 def pdf(note_url):
     note_uid = unquote_plus(note_url)
     note = get_note(note_uid)
-    make_pdf(note)
+
+    try:
+        make_pdf(note)
+    except OSError:
+        flash('Failed to convert to PDF. Is Pandoc installed?')
+        return redirect(url_for('render', note_url=note_url))
+
     with open(note.pdf_fname, mode='rb') as f:
         response = make_response(f.read())
         response.headers['Content-Type'] = 'application/pdf'
