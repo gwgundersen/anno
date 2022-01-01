@@ -5,13 +5,13 @@ Functions for rendering Markdown and LaTeX as HTML.
 from   anno.anno.config import c
 import datetime
 import markdown2
+import pypandoc
 import re
 
 
 # -----------------------------------------------------------------------------
 
 def render_markdown(value):
-    import pypandoc
 
     try:
         extra_args = ['--katex']
@@ -24,8 +24,6 @@ def render_markdown(value):
 
 
 def make_pdf(note):
-    import pypandoc
-
     extra_args = ['-V', 'geometry:margin=1in', '--pdf-engine', 'pdflatex',
                   '-V', 'colorlinks', '-V', 'urlcolor=NavyBlue']
 
