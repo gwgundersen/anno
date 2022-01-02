@@ -12,17 +12,15 @@
 </head>
 <body id='index-page'>
     {% include 'flashes.html' %}
-    <div class='title-wrapper'>
-        {% if show_home_btn %}
-            <div class='nav-wrapper'>
-                <div class='nav content'>
-                    <a href='/' class='btn'>Home</a>
-                </div>
+    {% if show_home_btn %}
+        <div class='nav-wrapper'>
+            <div class='nav content'>
+                <a href='/' class='btn'>Home</a>
             </div>
-        {% endif %}
-        <div class='content'>
-            <h1>{{ title }}</h1>
-            {% if not show_home_btn %}
+        </div>
+    {% else %}
+        <div class='nav-wrapper'>
+            <div class='nav content'>
                 <div class='controls'>
                     <a href='/new' class='btn'>Create note</a>
                     <form action='/search' method='post' id='search_form'>
@@ -30,7 +28,12 @@
                         <input type='submit' class='btn' value='Go'>
                     </form>
                 </div>
-            {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <div class='title-wrapper'>
+        <div class='content'>
+            <h1>{{ title }}</h1>
         </div>
     </div>
     <div class='content'>

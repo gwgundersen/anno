@@ -1,17 +1,10 @@
-/*
- Off white : #F7E6DC
- Dark blue : #0C016E
- Light blue: #1AA2DB
- Red       : #FA200A
- Orange    : #FA6B34
- */
 body {
     margin: 0;
     padding: 0;
     font-family: -apple-system, Helvetica, arial, sans-serif;
     color: rgba(0, 0, 0, 0.8);
     line-height: 1.5em;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .mono {
@@ -32,6 +25,8 @@ a.btn,
     background-color: rgba(0, 0, 0, 0.1);
     border: none !important;
     font-size: 13px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .btn:hover {
@@ -54,11 +49,11 @@ a.btn,
 
 .nav-wrapper,
 .title-wrapper {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .nav {
-    margin: 10px auto;
+    padding: 10px;
 }
 
 .nav a {
@@ -66,8 +61,14 @@ a.btn,
 }
 
 .title-wrapper {
-    padding-bottom: 20px;
+    background-color: #f7f8fa;
+    padding: 30px;
     margin-bottom: 40px;
+}
+
+.title-wrapper h1 {
+    margin-top: 0;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .title p {
@@ -84,33 +85,28 @@ table {
 .nav-wrapper a:link,
 .nav-wrapper a:visited,
 .nav-wrapper a:active {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
     color: rgba(0, 0, 0, 0.8);
     text-decoration: none;
 }
 
 #index-page a:hover,
 .nav-wrapper a:hover {
-    color: black;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: bold;
     text-decoration: none;
 }
 a.label:link,
 a.label:visited,
 a.label:active {
-    /* The color is overwritten by JS; this prevents "flickering" between
-     * colors.
-     */
-    background-color: white;
-    color: white !important;
-    border-bottom: none !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+    font-weight: bold;
     font-size: 13px;
     padding: 2px 5px;
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 a.label:hover {
-    opacity: 0.7;
+    color: rgba(0, 0, 0, 0.5) !important;
     border-bottom: none !important;
     text-decoration: none !important;
 }
@@ -119,29 +115,39 @@ a.label:hover {
     margin-bottom: 100px;
 }
 
-#index-page table tr td.date {
-    width: 100px;
-}
-
 #index-page table tr td {
     padding-right: 30px;
 }
 
-#note-page table tr td {
+#index-page table tr td.date {
+    color: gray;
+    font-size: 12px;
+    width: 100px;
+    vertical-align: bottom;
+    padding-bottom: 0;
+}
+
+#index-page table tr td.title {
+    width: 300px;
+}
+
+#note-page .title-wrapper table tr td {
     padding-right: 10px;
 }
 
-#note-page table {
+#note-page .title-wrapper table {
     margin-top: 15px;
+    width: 100%;
 }
 
-#note-page h1 {
-    margin-top: 40px;
-    line-height: 1em;
+#note-page .title-wrapper table tr td {
+    border-top: 1px solid #ddd;
+    padding-right: 10px;
+    font-size: 13px;
 }
 
-#index-page .title-wrapper h1 {
-    margin-bottom: 20px;
+#note-page .title-wrapper table tr td.metadata-key {
+    width: 20%;
 }
 
 #index-page #search_form {
@@ -149,9 +155,10 @@ a.label:hover {
 }
 
 #index-page #search_form #search_text {
-    height: 17px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    height: 20px;
     position: relative;
-    top: -1px;
+    top: 0;
 }
 
 #edit-page .btn {
@@ -159,9 +166,14 @@ a.label:hover {
     margin: 20px 20px 20px 0;
 }
 
+#edit-page .nav {
+    padding: 0;
+}
+
+#create-page #edit-submit-btn,
 #edit-page #edit-submit-btn {
-    background-color: #005f83;
-    color: white;
+    background-color: #1AA2DB;
+    color: white !important;
 }
 
 #edit-page #edit-submit-btn:hover {
@@ -174,12 +186,12 @@ a.label:hover {
 }
 
 #edit-page #edit-field {
-    border: 1px solid rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     height: 598px;
 }
 
 #edit-page #edit-preview {
-    border: 1px solid rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     float: right;
     margin-top: 65px;
     margin-bottom: 50px;
@@ -197,6 +209,7 @@ a.label:hover {
 }
 
 #create-page #create-field {
+    border: 1px solid rgba(0, 0, 0, 0.2);
     height: 300px;
     margin: 20px 0 30px 0;
     width: 100%;
@@ -245,13 +258,11 @@ figure figcaption {
 .markdown-body a:link,
 .markdown-body a:visited,
 .markdown-body a:active {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-    color: rgba(0, 0, 0, 0.8);
+    color: #1AA2DB;
     text-decoration: none;
 }
 
 .markdown-body a:hover {
-    color: black;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    color: #0f6d94j;
     text-decoration: none;
 }

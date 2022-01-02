@@ -6,8 +6,7 @@ from   anno.anno.config import c
 from   anno.anno.render import (jinja2_filter_date_to_string,
                                 render_markdown,
                                 make_pdf)
-from   anno.anno.notes import (get_labels,
-                               get_notes,
+from   anno.anno.notes import (get_notes,
                                get_note,
                                Note,
                                note_exists,
@@ -56,7 +55,7 @@ def index():
 def render(note_url):
     note_uid = unquote_plus(note_url)
     note = get_note(note_uid)
-    if not note and note_uid not in FNAME_WHITELIST:
+    if not note or note_uid in FNAME_WHITELIST:
         flash(f'Note {note_uid} not found.')
         return redirect(url_for('index'))
     return render_template('note.html',
@@ -186,21 +185,6 @@ def label(label):
     no_notes_msg = f'No notes for label "{label}".'
     return render_template('index.html', notes=notes, title=label,
                            show_home_btn=True, no_notes_msg=no_notes_msg)
-
-
-@app.route('/label_colors', methods=['GET'])
-def label_colors():
-    colors = ["#34495e", "#9b59b6", "#3498db", "#95a5a6", "#e74c3c", "#2ecc71"]
-    default = colors.pop(-1)
-    labels = get_labels()
-    # Ensure consistent ordering regardless of file ordering.
-    labels = list(labels)
-    labels.sort()
-    label_colors = {}
-    for i, label in enumerate(labels):
-        color = colors[i] if i < len(colors) else default
-        label_colors[label] = color
-    return jsonify(label_colors)
 
 
 @app.route('/image', methods=['POST'], defaults={'img_name': None})
