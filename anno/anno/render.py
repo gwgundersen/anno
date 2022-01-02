@@ -12,14 +12,16 @@ import re
 # -----------------------------------------------------------------------------
 
 def render_markdown(value):
-
+    _, content = parse_frontmatter(value)
     try:
         extra_args = ['--katex']
-        output = pypandoc.convert_text(value, to='html5', format='md',
+        output = pypandoc.convert_text(content,
+                                       to='html5',
+                                       format='md',
                                        extra_args=extra_args)
     except OSError:
-        output = markdown2.markdown(value, extras=['metadata', 'footnotes'])
-
+        output = markdown2.markdown(content,
+                                    extras=['metadata', 'footnotes'])
     return output
 
 
@@ -34,7 +36,9 @@ def make_pdf(note):
     # because I can't figure out how to tell Pandoc where the image files
     #   live.
     text = re.sub(r'(\(/image/)', '(_images/', note.text)
-    pypandoc.convert_text(text, to='pdf', format='md',
+    pypandoc.convert_text(text,
+                          to='pdf',
+                          format='md',
                           extra_args=extra_args,
                           outputfile=note.pdf_fname)
 
@@ -49,7 +53,7 @@ def parse_frontmatter(text):
         parts = [p for p in fm.split('\n') if p]
         meta = {x[0].strip(): x[1].strip()
                 for x in [x.split(':', 1) for x in parts]}
-        return meta
+        return meta, content
     except ValueError:
         raise ValueError('Error parsing frontmatter.')
 

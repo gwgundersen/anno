@@ -36,8 +36,8 @@
                 {% for k, v in note.meta.items() %}
                     {% if k == "labels" %}
                     <tr>
-                        <td>{{ k }}</td>
-                        <td>
+                        <td class='metadata-key'>{{ k }}</td>
+                        <td class='metadata-value'>
                             {% for label in v.split(",") %}
                                 <a class='label {{ label }}' href='/label/{{ label }}'>{{ label }}</a>
                             {% endfor %}
@@ -45,8 +45,8 @@
                     </tr>
                     {% else %}
                     <tr>
-                        <td>{{ k }}</td>
-                        <td>{{ v }}</td>
+                        <td class='metadata-key'>{{ k }}</td>
+                        <td class='metadata-value'>{{ v }}</td>
                     </tr>
                     {% endif %}
                 {% endfor %}

@@ -204,30 +204,8 @@ ANNO.handleImages = function () {
 };
 
 
-ANNO.colorLabels = function() {
-    ANNO.ajax('/label_colors', function(label_colors) {
-        label_colors = JSON.parse(label_colors);
-        var labelEls, i, labels, ind, j, c;
-        labelEls = document.getElementsByClassName('label');
-        for (i = 0; i < labelEls.length; i++) {
-            labels = Array.from(labelEls[i].classList);
-            ind = labels.indexOf('label');
-            if (ind > -1) {
-                labels.splice(ind, 1);
-            }
-            for (j = 0; j < labels.length; j++) {
-                c = label_colors[labels[j]];
-                labelEls[i].style.backgroundColor = c;
-            }
-        }
-    }, 'GET');
-};
-
 
 document.addEventListener('DOMContentLoaded', function () {
-    try {
-        ANNO.colorLabels();
-    } catch (e) {}
     try {
         ANNO.watchEdits();
     } catch (e) {}

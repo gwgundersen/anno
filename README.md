@@ -50,9 +50,9 @@ python setup.py sdist
 pip install dist/anno-<VERSION>.tar.gz
 ```
 
-### LaTeX
+### Tex
 
-To use the PDF converter, you need [Pandoc](https://pandoc.org/) and the `pdflatex` command.
+To use Katex or the PDF converter, you need [Pandoc](https://pandoc.org/) and the `pdflatex` command. Otherwise, Anno falls back on [python-markdown2](https://github.com/trentm/python-markdown2).
 
 ## Usage
 
