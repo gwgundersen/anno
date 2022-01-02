@@ -17,7 +17,7 @@ There are many note-taking apps. How is Anno different? Anno is a local, browser
 
 Anno provides a user interface for the most common and/or time-consuming text-editing operations. 
 
-<img src='https://raw.githubusercontent.com/gwgundersen/anno/master/screenshots/editing.png?token=AAVQBIFJQMFJMLK4RFCCZ72576O7I'/>
+<img src='https://raw.githubusercontent.com/gwgundersen/anno/master/screenshots/editing_0.0.5.png'/>
 
 Anno supports:
 
