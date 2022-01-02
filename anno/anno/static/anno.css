@@ -23,6 +23,7 @@ a.btn,
 .btn {
     padding: 4px 8px;
     background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
     border: none !important;
     font-size: 13px;
     font-weight: bold;
@@ -113,11 +114,16 @@ a.label:hover {
 
 #index-page table {
     margin-bottom: 100px;
+    width: 100%;
 }
 
 #index-page table tr td {
     border-bottom: 1px solid #eee;
     padding-right: 30px;
+}
+
+#index-page table tr td.labels {
+    text-align: right;
 }
 
 #index-page table tr td.date {
@@ -158,6 +164,7 @@ a.label:hover {
 #index-page #search_form #search_text {
     border: 1px solid rgba(0, 0, 0, 0.1);
     height: 20px;
+    padding-left: 10px;
     position: relative;
     top: 0;
 }
