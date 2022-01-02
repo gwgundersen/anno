@@ -85,13 +85,13 @@ table {
 .nav-wrapper a:link,
 .nav-wrapper a:visited,
 .nav-wrapper a:active {
-    color: rgba(0, 0, 0, 0.8);
+    color: rgb(9, 105, 218);
     text-decoration: none;
 }
 
 #index-page a:hover,
 .nav-wrapper a:hover {
-    color: rgba(0, 0, 0, 0.8);
+    color: rgb(9, 105, 218);
     font-weight: bold;
     text-decoration: none;
 }
@@ -116,6 +116,7 @@ a.label:hover {
 }
 
 #index-page table tr td {
+    border-bottom: 1px solid #eee;
     padding-right: 30px;
 }
 
@@ -161,7 +162,7 @@ a.label:hover {
     top: 0;
 }
 
-#edit-page .btn {
+#edit-page .content-wrapper .btn {
     float: left;
     margin: 20px 20px 20px 0;
 }
@@ -172,7 +173,7 @@ a.label:hover {
 
 #create-page #edit-submit-btn,
 #edit-page #edit-submit-btn {
-    background-color: #1AA2DB;
+    background-color: rgb(9, 105, 218);
     color: white !important;
 }
 
@@ -195,7 +196,7 @@ a.label:hover {
     float: right;
     margin-top: 65px;
     margin-bottom: 50px;
-    height: 600px;
+    height: 604px;
     overflow-y: scroll;
 }
 
@@ -258,11 +259,11 @@ figure figcaption {
 .markdown-body a:link,
 .markdown-body a:visited,
 .markdown-body a:active {
-    color: #1AA2DB;
+    color: rgb(9, 105, 218);
     text-decoration: none;
 }
 
 .markdown-body a:hover {
-    color: #0f6d94j;
-    text-decoration: none;
+    color: rgb(9, 105, 218);
+    text-decoration: underline;
 }
