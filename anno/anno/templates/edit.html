@@ -19,12 +19,13 @@
     <link rel='stylesheet' href='{{ url_for("static", filename="anno.css") }}'/>
 </head>
 <body id='edit-page'>
+    {% include 'flashes.html' %}
     <div class='nav-wrapper'>
-        <div class='nav content'>
+        <div class='nav'>
             <a class='btn' href='/{{ note.url }}'>Back</a>
+            <span id='save-notification'></span>
         </div>
     </div>
-    {% include 'flashes.html' %}
     <div class='content-wrapper'>
         <div class='content'>
             <div id='uploaded-image-tag' class='hidden mono'></div>

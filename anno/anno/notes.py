@@ -110,7 +110,10 @@ def search_notes(keyword):
 class Note:
 
     def __init__(self, text, orig_fname=None):
-        fm, _ = parse_frontmatter(text)
+        try:
+            fm, _ = parse_frontmatter(text)
+        except IndexError:
+            raise ValueError('Error parsing frontmatter.')
 
         self.title  = fm.get('title')
         self.author = fm.get('author')

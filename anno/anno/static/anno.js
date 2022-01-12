@@ -102,6 +102,24 @@ ANNO.watchEdits = function () {
         }
     }
 
+    function deleteFlashes() {
+        try {
+            document.getElementById('flashes-banner').remove();
+        } catch(e) {
+        }
+    }
+
+    function showErrorMessage(elem, msg) {
+        var flashId = document.getElementById('flashes-banner'),
+            flashP;
+        if (flashId) {
+            flashP = flashId.getElementsByClassName('flash')[0];
+            flashP.innerHTML = msg;
+        } else {
+            elem.innerHTML = msg;
+        }
+    }
+
     function save(auto) {
         var data = new FormData(),
             elem,
@@ -119,6 +137,7 @@ ANNO.watchEdits = function () {
                 d = JSON.parse(d);
                 if (d['success']) {
                     success(d['data']);
+                    deleteFlashes();
                     forms = document.getElementsByTagName('form');
                     // Ensure the form action properties are in sync. See:
                     // https://github.com/gwgundersen/anno/issues/19
@@ -140,11 +159,11 @@ ANNO.watchEdits = function () {
                 } else {
                     clearTimeout(saveMsgTimeout);
                 }
-                elem = document.getElementById('flashes');
+                elem = document.getElementById('save-notification');
                 if (d['success'] && auto) {
                     elem.innerHTML = 'Auto-saved.';
                 } else {
-                    elem.innerHTML = d['message'];
+                    showErrorMessage(elem, d['message']);
                 }
             }, 'POST', data);
         }

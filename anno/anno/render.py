@@ -46,16 +46,23 @@ def make_pdf(note):
 def parse_frontmatter(text):
     if not text.startswith('---'):
         raise ValueError('Files must contain frontmatter with title and date.')
+
+    # Credit: https://github.com/eyeseast/python-frontmatter/
+    FM_BOUNDARY = re.compile(r'^-{3,}\s*$', re.MULTILINE)
     try:
-        # Credit: https://github.com/eyeseast/python-frontmatter/
-        FM_BOUNDARY = re.compile(r'^-{3,}\s*$', re.MULTILINE)
         _, fm, content = FM_BOUNDARY.split(text, 2)
-        parts = [p for p in fm.split('\n') if p]
+    except ValueError:
+        raise ValueError('Error parsing frontmatter. Top and bottom should be '
+                         'delineated by "---" marks.')
+    parts = [p for p in fm.split('\n') if p]
+    try:
         meta = {x[0].strip(): x[1].strip()
                 for x in [x.split(':', 1) for x in parts]}
-        return meta, content
-    except ValueError:
-        raise ValueError('Error parsing frontmatter.')
+    except IndexError:
+        raise ValueError('Error parsing frontmatter. Is each row a semicolon-'
+                         'separated key-value pair?')
+    return meta, content
+
 
 
 def jinja2_filter_date_to_string(date_str):

@@ -129,7 +129,6 @@ def save(note_url):
     try:
         new_note = Note(new_text)
     except (ValueError, AttributeError) as e:
-        print(str(e))
         return jsonify({
             'message': f'Not saved. {str(e)}',
             'success': False,
@@ -155,10 +154,16 @@ def save(note_url):
         })
 
 
+# flash(f'Not saved. {str(e)}')
+# return redirect(url_for('edit', note_url=old_note.url))
+
 @app.route('/preview', methods=['POST'])
 def preview():
     text = request.form.get('note_text')
-    return render_markdown(text)
+    try:
+        return render_markdown(text)
+    except Exception as e:
+        return f'Unable to preview. Error messsage:\n\n{str(e)}'
 
 
 @app.route('/<string:note_url>/delete', methods=['POST'])

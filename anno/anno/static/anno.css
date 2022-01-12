@@ -178,6 +178,11 @@ a.label:hover {
     padding: 0;
 }
 
+#edit-page #save-notification {
+    color: #FA200A;
+    font-weight: bold;
+}
+
 #create-page #edit-submit-btn,
 #edit-page #edit-submit-btn {
     background-color: rgb(9, 105, 218);
@@ -199,6 +204,7 @@ a.label:hover {
 }
 
 #edit-page #edit-preview {
+    padding: 20px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     float: right;
     margin-top: 65px;
@@ -231,13 +237,14 @@ a.label:hover {
 }
 
 #flashes-banner {
-    background-color: #FA200A;
     height: 30px;
-    padding: 7px 0 5px 0;
+    padding: 13px 0 0 0;
+    margin: 0 50px !important;
 }
 
 #flashes-banner p.flash {
-    color: white;
+    color: #FA200A;
+    font-weight: bold;
     display: inline-block;
     margin: 0;
     vertical-align: middle;
